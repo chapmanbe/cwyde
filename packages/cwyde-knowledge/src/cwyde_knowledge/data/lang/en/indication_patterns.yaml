@@ -1,0 +1,55 @@
+schema_version: 1
+
+# English indication (rule-out context) patterns.
+#
+# These match sentence-level phrases that signal the finding is under
+# investigation — neither asserted nor denied. "Rule out PE" is not negation.
+#
+# Backfill: catches cases where base medspaCy ConText misclassifies these
+# as negated findings. The pattern match promotes the entity to INDICATION.
+
+patterns:
+  - pattern: "\\brule[- ]out\\b"
+    description: "rule out / rule-out"
+
+  - pattern: "\\br/o\\b"
+    description: "r/o abbreviation for rule out"
+
+  - pattern: "\\bevaluate\\s+for\\b"
+    description: "evaluate for X"
+
+  - pattern: "\\bevaluation\\s+for\\b"
+    description: "evaluation for X"
+
+  - pattern: "\\bto\\s+(?:assess|evaluate|exclude|rule\\s+out)\\b"
+    description: "to assess/evaluate/exclude/rule out"
+
+  - pattern: "\\bconcern\\s+for\\b"
+    description: "concern for X"
+
+  - pattern: "\\bworrisome\\s+for\\b"
+    description: "worrisome for X"
+
+  - pattern: "\\bsuspected\\b"
+    description: "suspected X (under investigation)"
+
+  - pattern: "\\bsuspicion\\s+(?:of|for)\\b"
+    description: "suspicion of / suspicion for"
+
+  - pattern: "\\bquestion\\s+of\\b"
+    description: "question of X"
+
+  - pattern: "\\b\\?\\s*[A-Z]"
+    description: "? Diagnosis notation (e.g., '? PE')"
+
+  - pattern: "\\bpresent(?:ing)?\\s+(?:with|complaint)"
+    description: "presenting with / presenting complaint (reason for visit)"
+
+  - pattern: "\\badmitted\\s+(?:with|for)"
+    description: "admitted with/for"
+
+  - pattern: "\\bwork(?:ing)?\\s*[-–]?up\\s+for\\b"
+    description: "workup for X"
+
+  - pattern: "\\bto\\s+(?:determine|identify)\\s+(?:if|whether)"
+    description: "to determine/identify if/whether X is present"

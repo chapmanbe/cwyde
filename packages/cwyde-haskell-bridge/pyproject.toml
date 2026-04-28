@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cwyde-haskell-bridge"
+version = "0.1.0"
+description = "Python subprocess bridge to gamen-validate Haskell binary for cwyde"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Brian Chapman", email = "chapmanbe@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.0"]
+
+[project.optional-dependencies]
+cache = ["diskcache>=5.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cwyde_haskell_bridge"]

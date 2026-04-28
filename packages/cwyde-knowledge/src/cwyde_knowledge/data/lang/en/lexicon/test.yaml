@@ -1,0 +1,1171 @@
+schema_version: 1
+entries:
+- lex: are ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: be ruled out
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: being ruled out
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: can be ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: cannot be excluded
+  direction: backward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: cannot totally be excluded
+  direction: backward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: could be ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: examination
+  direction: backward
+  category: INDICATION
+  regex: \b(examination|exam|study)\b
+  source: pyConTextNLP/test.yml
+- lex: free
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: has been ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: have been ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: is in the differential
+  direction: backward
+  category: AMBIVALENT_EXISTENCE
+  regex: is\sin\sthe\sdifferential
+  source: pyConTextNLP/test.yml
+- lex: is negative
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: (is|was) negative
+  source: pyConTextNLP/test.yml
+- lex: is not excluded
+  direction: backward
+  category: AMBIVALENT_EXISTENCE
+  regex: (is|was|are|were)\snot\sexcluded
+  source: pyConTextNLP/test.yml
+- lex: is not entirely excluded
+  direction: backward
+  category: PROBABLE_NEGATED_EXISTENCE
+  regex: (is|was|are|were|does)\snot\s(entirely|totally|definitely|completely\s) excluded
+  notes: 2/28/2013; added definitely; removed ed
+  source: pyConTextNLP/test.yml
+- lex: is present
+  direction: backward
+  category: DEFINITE_EXISTENCE
+  regex: (is|are) present
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: is ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: is to be ruled out
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: is ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: might be ruled out
+  direction: backward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: must be ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not been ruled out
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: not definitively seen
+  direction: backward
+  category: PROBABLE_NEGATED_EXISTENCE
+  regex: not definitively (seen|visualized)
+  notes: 3/22/2013
+  source: pyConTextNLP/test.yml
+- lex: not excluded
+  direction: backward
+  category: AMBIVALENT_EXISTENCE
+  regex: not\s(excluded|ruled\sout)
+  source: pyConTextNLP/test.yml
+- lex: now measuring
+  direction: backward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: ought to be ruled out
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: progressed
+  direction: backward
+  category: HISTORICAL
+  notes: 3/22/2013
+  source: pyConTextNLP/test.yml
+- lex: protocol
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: resolved
+  direction: backward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: should be ruled out
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: suspected
+  direction: backward
+  category: PROBABLE_EXISTENCE
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: unlikely
+  direction: bidirectional
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: varying ages
+  direction: backward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: was ruled out
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: will be ruled out
+  direction: backward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: would not be expected
+  direction: backward
+  category: PROBABLE_NEGATED_EXISTENCE
+  notes: 2/28/2013
+  source: pyConTextNLP/test.yml
+- lex: again
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: age indeterminate
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: appear
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  regex: (\bappear\b|\bappears\b)
+  source: pyConTextNLP/test.yml
+- lex: cannot be completely excluded
+  direction: bidirectional
+  category: PROBABLE_NEGATED_EXISTENCE
+  regex: cannot\sbe\s((entirely|completely|totally)\s)?(excluded|ruled out)
+  notes: 2/28/2013
+  source: pyConTextNLP/test.yml
+- lex: cannot be evaluated
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  notes: 2/28/2013
+  source: pyConTextNLP/test.yml
+- lex: chronic
+  direction: bidirectional
+  category: HISTORICAL
+  regex: \bchronic[a-z]*\b
+  notes: '2/28/2013; chronicity: make regular expression to capture variations'
+  source: pyConTextNLP/test.yml
+- lex: clear
+  direction: bidirectional
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: diminished
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: equivocal
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: evaluation
+  direction: bidirectional
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: evolving
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: healing
+  direction: bidirectional
+  category: HISTORICAL
+  regex: \b(healing|healed)\b
+  source: pyConTextNLP/test.yml
+- lex: improved
+  direction: bidirectional
+  category: HISTORICAL
+  regex: improved|improving|improvement
+  notes: 4/2013
+  source: pyConTextNLP/test.yml
+- lex: incompletely evaluated
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: interval change
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: interval increase
+  direction: bidirectional
+  category: HISTORICAL
+  regex: (interval)\b[\d\D\s]*increase
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: less likely
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: likely
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: likely chronic
+  direction: bidirectional
+  category: HISTORICAL
+  notes: 2/28/2013; thought of just changing chronic to bidirectional;  but also capture
+    likely
+  source: pyConTextNLP/test.yml
+- lex: may be ruled out
+  direction: bidirectional
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no change in
+  direction: bidirectional
+  category: HISTORICAL
+  regex: (no(t)? ([a-zA-z] )?change(d)?( in)?)
+  notes: 2/28/2013; 4/15/2013
+  source: pyConTextNLP/test.yml
+- lex: no longer noted
+  direction: bidirectional
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: no longer (seen|noted|visualized)
+  source: pyConTextNLP/test.yml
+- lex: not
+  direction: bidirectional
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: \bnot\b
+  notes: 3/23/2013
+  source: pyConTextNLP/test.yml
+- lex: not significantly changed
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: old
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: on previous exam
+  direction: bidirectional
+  category: HISTORICAL
+  regex: (on |from )?(previous|prior) exam
+  notes: need regular expression
+  source: pyConTextNLP/test.yml
+- lex: persistent
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: possible
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  notes: 2/28/2013
+  source: pyConTextNLP/test.yml
+- lex: previous
+  direction: bidirectional
+  category: HISTORICAL
+  notes: 3/21/2013; changed to bidirectional
+  source: pyConTextNLP/test.yml
+- lex: previously described
+  direction: bidirectional
+  category: HISTORICAL
+  regex: previously (described|suspected)
+  notes: 3/21/2013; 3/22/2013
+  source: pyConTextNLP/test.yml
+- lex: prior
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: prior study
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: probable
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  notes: 3/21/2013
+  source: pyConTextNLP/test.yml
+- lex: questionable
+  direction: bidirectional
+  category: PROBABLE_NEGATED_EXISTENCE
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: ruled out
+  direction: bidirectional
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: should be considered
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: stable
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: still evident
+  direction: bidirectional
+  category: HISTORICAL
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: subacute
+  direction: bidirectional
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: suggest
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  regex: \bsuggest[a-z]+\b
+  source: pyConTextNLP/test.yml
+- lex: unchanged
+  direction: bidirectional
+  category: HISTORICAL
+  regex: unchanged|unchanging
+  source: pyConTextNLP/test.yml
+- lex: versus
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: absence of
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: adequate to rule the patient out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: appears to be
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: assessment for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: atypical for
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: be ruled out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: can be ruled out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: can rule the patient out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: can rule (her|him|the patient) out
+  source: pyConTextNLP/test.yml
+- lex: cannot
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: cannot exclude
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  regex: cannot\sexclude
+  source: pyConTextNLP/test.yml
+- lex: cannot see
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: cannot totally exclude
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: change in
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: changing
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: checked for
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: clinical history
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: compatible with
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: concerning for
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: consistent with
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  notes: 2/14/2013
+  source: pyConTextNLP/test.yml
+- lex: convincing
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: could be ruled out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: declined
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: declines
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: decrease in
+  direction: forward
+  category: HISTORICAL
+  notes: make regular expression to capture variations
+  source: pyConTextNLP/test.yml
+- lex: decrease in
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: definite
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: denied
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: denies
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: deny
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: denying
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: did rule (the patient|him|her) out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: did rule out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: differential diagnosis would include
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  regex: differential\s((diagnosis|considerations)\s)?((would|could)\sinclud[a-z]*)?
+  source: pyConTextNLP/test.yml
+- lex: documented
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: evaluate for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: evaluation of
+  direction: forward
+  category: INDICATION
+  regex: evaluation\s(of|for)
+  source: pyConTextNLP/test.yml
+- lex: evidence
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: did rule her out against
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: examination for
+  direction: forward
+  category: INDICATION
+  regex: (study|exam|examination) for
+  source: pyConTextNLP/test.yml
+- lex: fails to reveal
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: free of
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: higher sensitivity for
+  direction: forward
+  category: INDICATION
+  notes: 2/28/2013
+  source: pyConTextNLP/test.yml
+- lex: highly suggestive
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  notes: 4/29/2013
+  source: pyConTextNLP/test.yml
+- lex: history of
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: is to be ruled out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: is more sensitive
+  direction: forward
+  category: INDICATION
+  regex: is more sensitive
+  source: pyConTextNLP/test.yml
+- lex: known
+  direction: forward
+  category: HISTORICAL
+  regex: \bknown\b
+  source: pyConTextNLP/test.yml
+- lex: low probability
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: may be related
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  notes: 2/28/2013
+  source: pyConTextNLP/test.yml
+- lex: may represent
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  regex: (may|might)\s(represent|reflect)
+  source: pyConTextNLP/test.yml
+- lex: might be ruled out for
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: mimicking
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  notes: 3/22/2013
+  source: pyConTextNLP/test.yml
+- lex: must be ruled out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: negative examination for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: negative (examination|study|exam|evaluation) for
+  source: pyConTextNLP/test.yml
+- lex: negative for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: never developed
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: never had
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: 'no'
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: \bno\b
+  source: pyConTextNLP/test.yml
+- lex: no abnormal
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  notes: 2/28/2013; changed from probable to definite
+  source: pyConTextNLP/test.yml
+- lex: no cause of
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no complaints of
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no convincing
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no definite
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: no[\s]*definite
+  source: pyConTextNLP/test.yml
+- lex: no definite change
+  direction: forward
+  category: HISTORICAL
+  notes: need regular expression
+  source: pyConTextNLP/test.yml
+- lex: no evidence of
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: (no|without)\s((definite|other|definitive|secondary|indirect)\s)?((radiographic|sonographic|CT)\s)?evidence\s(of|for)
+  notes: 2/28/2013; added other probably consider simplifying re as XYZ
+  source: pyConTextNLP/test.yml
+- lex: no findings of
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no findings to indicate
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no increase
+  direction: forward
+  category: HISTORICAL
+  notes: 4/16/2013
+  source: pyConTextNLP/test.yml
+- lex: no new
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no obvious
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no other
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no sign of
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no significant
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no significant change
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: no significant interval change
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: no signs
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: no sign(s)?
+  source: pyConTextNLP/test.yml
+- lex: no definite signs of
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  regex: (no|without) (definite|definitive|secondary|indirect) ((radiographic|sonographic|CT)\s)?signs\s(of|for)
+  source: pyConTextNLP/test.yml
+- lex: no suggestion
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no suspicious change
+  direction: forward
+  category: HISTORICAL
+  notes: 4/16/2013
+  source: pyConTextNLP/test.yml
+- lex: no XYZ to suggest
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: (\b(without|no)\b[\d\D\s]*to suggest)
+  notes: 2/14/2013
+  source: pyConTextNLP/test.yml
+- lex: nor
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  regex: \bnor\b
+  source: pyConTextNLP/test.yml
+- lex: not appreciate
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not associated with
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not clearly evident
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  notes: 3/22/2013
+  source: pyConTextNLP/test.yml
+- lex: not complain of
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not demonstrate
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not exhibit
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not feel
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not had
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not have
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not know of
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not known to have
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not reveal
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not see
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not to be
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: nothing
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: obvious
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: ought to be ruled out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: patient was not
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: positive study for
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  regex: positive (study|exam|examination)( for)
+  source: pyConTextNLP/test.yml
+- lex: progression of
+  direction: forward
+  category: HISTORICAL
+  regex: progression\s(of|in)
+  source: pyConTextNLP/test.yml
+- lex: rather than
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: redemonstration
+  direction: forward
+  category: HISTORICAL
+  regex: (re-demonstrat[a-z]*|redemonstrat[a-z]*)
+  source: pyConTextNLP/test.yml
+- lex: remote
+  direction: forward
+  category: HISTORICAL
+  notes: 2/28/2013; added for Ami's 19649
+  source: pyConTextNLP/test.yml
+- lex: represents
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: residual
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: resolution of
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: resolving
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: rule her out
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: rule him out
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: rule him out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: rule out
+  direction: forward
+  category: INDICATION
+  regex: (r/o|rule out|\br o\b|r\.o\.|\bro\b)
+  source: pyConTextNLP/test.yml
+- lex: rule out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: rule patient out for
+  direction: forward
+  category: INDICATION
+  regex: rule (him|her|patient|the patient|subject) out for
+  source: pyConTextNLP/test.yml
+- lex: rule the patient out
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: rule the patient out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: ruled her out against
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: ruled\s(him|her|the subject|the patient|subject|patient)\sout( against| for)?
+  notes: 4/16/2013
+  source: pyConTextNLP/test.yml
+- lex: ruled out against
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: ruled out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: rules her out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: rules her out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: rules\s(him|her)\sout\sfor
+  source: pyConTextNLP/test.yml
+- lex: rules him out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: rules\s(him|her)\sout
+  source: pyConTextNLP/test.yml
+- lex: rules him out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: rules\s(him|her)\sout\sfor
+  source: pyConTextNLP/test.yml
+- lex: rules out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: rules out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: rules the patient out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: rules the patient out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: sequelae of
+  direction: forward
+  category: HISTORICAL
+  source: pyConTextNLP/test.yml
+- lex: should be ruled out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: simulating
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  notes: 3/22/2013
+  source: pyConTextNLP/test.yml
+- lex: study for detection
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: sufficient to rule out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: sufficient\sto\srule\s((her|him|the patient|the subject)\s)?out
+  source: pyConTextNLP/test.yml
+- lex: suspicious
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: suspicous
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: test for
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: to exclude
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: unable to adequately assess
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: unable to assess
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: unremarkable for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: what must be ruled out is
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: will be ruled out for
+  direction: forward
+  category: INDICATION
+  source: pyConTextNLP/test.yml
+- lex: with no
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: without
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: without indication
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: without sign
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: without sign(s)?
+  source: pyConTextNLP/test.yml
+- lex: worrisome
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: '#NAME?'
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: (no|nothing) convincing
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: (the patient|him|her) was not
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: as a suggestion
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: associated with
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: believe
+  direction: bidirectional
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: borderline
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: can rule out
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: can rule out against
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: can rule out for
+  direction: forward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: can see
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: cannot rule out
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  regex: cannot rule (the patient |him |her )?out
+  source: pyConTextNLP/test.yml
+- lex: completely excluded
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  regex: (completely|entirely)? excluded
+  source: pyConTextNLP/test.yml
+- lex: construed as
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: could be
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: could not be ruled
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: could represent
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: equivocal
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: every indication
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: excluded
+  direction: backward
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: exhibit
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: gross evidence
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: high probability
+  direction: bidirectional
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: highly hesitant
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: indication
+  direction: bidirectional
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: insufficient to rule (the patient|him|her) out for
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: is positive
+  direction: bidirectional
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no other (CT|radiographic|sonographic|MR|etc) evidence
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no secondary (CT|radiographic|sonographic|MR|etc) signs
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: no suspicious
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: not adequate to rule out
+  direction: forward
+  category: AMBIVALENT_EXISTENCE
+  regex: not adequate to rule ((the patient|him|her)\s)?out
+  source: pyConTextNLP/test.yml
+- lex: not likely
+  direction: bidirectional
+  category: DEFINITE_NEGATED_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: reveals
+  direction: forward
+  category: DEFINITE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: seen best
+  direction: backward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: signs of
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: was not excluded
+  direction: backward
+  category: AMBIVALENT_EXISTENCE
+  regex: (was|were) not excluded
+  source: pyConTextNLP/test.yml
+- lex: if
+  direction: forward
+  category: HYPOTHETICAL
+  source: pyConTextNLP/test.yml
+- lex: decrease
+  direction: bidirectional
+  category: HISTORICAL
+  regex: decrease|decreased|decreasing|reduction|reduced
+  source: pyConTextNLP/test.yml
+- lex: increase
+  direction: bidirectional
+  category: HISTORICAL
+  regex: increase|increasing|increased
+  source: pyConTextNLP/test.yml
+- lex: possibly
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: decrease the likelihood
+  direction: forward
+  category: PROBABLE_NEGATED_EXISTENCE
+  regex: decreas[a-z]+(\sthe)? likelihood
+  source: pyConTextNLP/test.yml
+- lex: suspect
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml
+- lex: likely represents
+  direction: forward
+  category: PROBABLE_EXISTENCE
+  regex: likely (represents|representing)
+  source: pyConTextNLP/test.yml
+- lex: favor
+  direction: bidirectional
+  category: PROBABLE_EXISTENCE
+  source: pyConTextNLP/test.yml

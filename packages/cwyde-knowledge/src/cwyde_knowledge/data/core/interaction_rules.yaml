@@ -1,0 +1,74 @@
+schema_version: 1
+
+# Conflict resolution rules for co-occurring modifiers on a single entity.
+#
+# precedence: ordered list — highest priority first. Used when no override matches.
+# overrides: explicit rules for specific modifier combinations.
+#   submit_to_gamen: true → defer to gamen-validate when available; fallback returns UNRESOLVED.
+# unresolvable: combinations that are inherently contradictory; always UNRESOLVED.
+
+precedence:
+  - INDICATION          # rule-out context overrides all existence assertions
+  - DEFINITE_NEGATED_EXISTENCE
+  - PROBABLE_NEGATED_EXISTENCE
+  - AMBIVALENT_EXISTENCE
+  - PROBABLE_EXISTENCE
+  - DEFINITE_EXISTENCE
+  - HISTORICAL
+  - HYPOTHETICAL
+  - FAMILY
+
+overrides:
+  # INDICATION always wins — "rule out PE" context is not negation
+  - modifiers: [INDICATION, DEFINITE_NEGATED_EXISTENCE]
+    result: INDICATION
+    submit_to_gamen: false
+    rationale: >
+      INDICATION means the clinician is investigating whether X is present.
+      A sentence-level negation inside an indication section is overridden
+      by the epistemic status of the study context.
+
+  - modifiers: [INDICATION, PROBABLE_NEGATED_EXISTENCE]
+    result: INDICATION
+    submit_to_gamen: false
+    rationale: Same as above — investigation context overrides hedged negation.
+
+  # Negation of uncertainty: not the same as definite negation
+  - modifiers: [DEFINITE_NEGATED_EXISTENCE, PROBABLE_EXISTENCE]
+    result: PROBABLE_NEGATED_EXISTENCE
+    submit_to_gamen: true
+    rationale: >
+      "Probably no X" — negation of a probable finding is probable negation,
+      not definite negation. Submit to gamen for formal verification.
+
+  # Historical + current negation: a different clinical state
+  - modifiers: [HISTORICAL, DEFINITE_NEGATED_EXISTENCE]
+    result: HISTORICAL
+    submit_to_gamen: false
+    rationale: >
+      "No prior history of X" — the negation applies to the historical context,
+      not to current presence. Result is HISTORICAL with the negation preserved
+      as a flag rather than changing the category.
+
+  # Family + any existence modifier: family wins (experiencer axis overrides)
+  - modifiers: [FAMILY, DEFINITE_EXISTENCE]
+    result: FAMILY
+    submit_to_gamen: false
+    rationale: Experiencer axis (FAMILY) overrides existence axis.
+
+  - modifiers: [FAMILY, PROBABLE_EXISTENCE]
+    result: FAMILY
+    submit_to_gamen: false
+    rationale: Experiencer axis (FAMILY) overrides existence axis.
+
+  - modifiers: [FAMILY, DEFINITE_NEGATED_EXISTENCE]
+    result: FAMILY
+    submit_to_gamen: false
+    rationale: >
+      "No family history of X" — negation applies within family context.
+      FAMILY category preserved; is_negated flag captures the negation.
+
+unresolvable:
+  # Genuine semantic contradiction — no resolution without more context
+  - [DEFINITE_EXISTENCE, DEFINITE_NEGATED_EXISTENCE]
+  - [PROBABLE_EXISTENCE, DEFINITE_NEGATED_EXISTENCE, INDICATION]

@@ -1,0 +1,49 @@
+schema_version: 1
+
+# Maps medspaCy ConText category strings to cwyde AssertionCategory values.
+# Covers both medspaCy's default categories and pyConTextNLP-native categories
+# that may appear in medspaCy pipelines using migrated rule sets.
+#
+# unmapped_default: what to assign when a category is not listed here.
+# Never silently default — UNRESOLVED triggers a logged warning.
+
+unmapped_default: UNRESOLVED
+
+mappings:
+  # --- medspaCy default ConText categories ---
+  - medspacy_category: NEGATED_EXISTENCE
+    cwyde_category: DEFINITE_NEGATED_EXISTENCE
+
+  - medspacy_category: POSSIBLE_EXISTENCE
+    cwyde_category: PROBABLE_EXISTENCE
+
+  - medspacy_category: POSSIBLE_NEGATED_EXISTENCE
+    cwyde_category: PROBABLE_NEGATED_EXISTENCE
+
+  - medspacy_category: HISTORICAL
+    cwyde_category: HISTORICAL
+
+  - medspacy_category: HYPOTHETICAL
+    cwyde_category: HYPOTHETICAL
+
+  - medspacy_category: FAMILY
+    cwyde_category: FAMILY
+
+  # --- pyConTextNLP-native categories (pass-through) ---
+  - medspacy_category: DEFINITE_EXISTENCE
+    cwyde_category: DEFINITE_EXISTENCE
+
+  - medspacy_category: PROBABLE_EXISTENCE
+    cwyde_category: PROBABLE_EXISTENCE
+
+  - medspacy_category: AMBIVALENT_EXISTENCE
+    cwyde_category: AMBIVALENT_EXISTENCE
+
+  - medspacy_category: PROBABLE_NEGATED_EXISTENCE
+    cwyde_category: PROBABLE_NEGATED_EXISTENCE
+
+  - medspacy_category: DEFINITE_NEGATED_EXISTENCE
+    cwyde_category: DEFINITE_NEGATED_EXISTENCE
+
+  - medspacy_category: INDICATION
+    cwyde_category: INDICATION

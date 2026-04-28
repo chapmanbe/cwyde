@@ -1,0 +1,98 @@
+schema_version: 1
+
+categories:
+  - category: DEFINITE_EXISTENCE
+    modal_reading: "□X — necessarily present"
+    modal_formula: "Box(Atom(x))"
+    axis: existence
+    description: >
+      The finding is asserted as definitively present. No hedge, qualification,
+      or conditionality. The clinical standard assertion.
+    overrides: []
+
+  - category: PROBABLE_EXISTENCE
+    modal_reading: "◇X — possibly present"
+    modal_formula: "Diamond(Atom(x))"
+    axis: existence
+    description: >
+      The finding is probably or possibly present. Hedged with language such as
+      "probable," "likely," "possible," "cannot exclude."
+    overrides: []
+
+  - category: AMBIVALENT_EXISTENCE
+    modal_reading: "◇X ∧ ◇¬X — indeterminate"
+    modal_formula: "And(Diamond(Atom(x)), Diamond(Not(Atom(x))))"
+    axis: existence
+    description: >
+      The clinician is genuinely uncertain: finding could be present or absent.
+      "Equivocal," "indeterminate," "could represent X or Y."
+    overrides: []
+
+  - category: PROBABLE_NEGATED_EXISTENCE
+    modal_reading: "◇¬X — possibly absent"
+    modal_formula: "Diamond(Not(Atom(x)))"
+    axis: existence
+    description: >
+      The finding is probably absent. Hedged negation: "probably no," "unlikely
+      to represent," "most likely not."
+    overrides: []
+
+  - category: DEFINITE_NEGATED_EXISTENCE
+    modal_reading: "□¬X — necessarily absent"
+    modal_formula: "Box(Not(Atom(x)))"
+    axis: existence
+    description: >
+      The finding is definitively absent. Clear negation: "no," "absent,"
+      "negative for," "without evidence of."
+    overrides:
+      - PROBABLE_NEGATED_EXISTENCE
+      - AMBIVALENT_EXISTENCE
+
+  - category: INDICATION
+    modal_reading: "?(X) — under investigation"
+    modal_formula: "And(Not(Knowledge(clinician, Atom(x))), Not(Knowledge(clinician, Not(Atom(x)))))"
+    axis: epistemic
+    description: >
+      The finding is the reason for the study — neither asserted nor denied.
+      "Rule out X," "evaluate for X," "to assess for X."
+      Critically: INDICATION is not negation. The patient may have X.
+    overrides:
+      - DEFINITE_NEGATED_EXISTENCE
+      - PROBABLE_NEGATED_EXISTENCE
+
+  - category: HISTORICAL
+    modal_reading: "P(X) — was the case"
+    modal_formula: "Past(Atom(x))"
+    axis: temporality
+    description: >
+      The finding was present in the past but is not being asserted about the
+      current clinical state. "History of," "prior," "previous," "known."
+    overrides: []
+
+  - category: HYPOTHETICAL
+    modal_reading: "hyp(X) — in a conditional scenario"
+    modal_formula: "Diamond(Atom(x))"
+    axis: temporality
+    description: >
+      The finding is mentioned in a hypothetical or conditional context.
+      "If X develops," "should X occur," "in the event of."
+    overrides: []
+
+  - category: FAMILY
+    modal_reading: "fam(X) — applies to family member"
+    modal_formula: "Knowledge(family, Atom(x))"
+    axis: experiencer
+    description: >
+      The finding applies to a family member, not the patient.
+      "Family history of," "mother had," "father with."
+    overrides: []
+
+  - category: UNRESOLVED
+    modal_reading: "⊥ — conflict not resolvable"
+    modal_formula: "null"
+    axis: existence
+    description: >
+      Multiple modifiers co-occur and no resolution rule applies.
+      UNRESOLVED is a first-class answer, not a bug. Downstream code must decide
+      how to handle entities with this category.
+    overrides: []

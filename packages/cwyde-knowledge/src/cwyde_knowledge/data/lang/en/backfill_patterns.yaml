@@ -1,0 +1,15 @@
+schema_version: 1
+
+# Backfill patterns — catch indication context that medspaCy ConText may have
+# missed entirely (no modifier triggered at all). These are lower-confidence
+# than the indication_patterns set and only fire when no modifier is present.
+
+patterns:
+  - pattern: "\\bto\\s+rule\\s+out\\b"
+    description: "to rule out (multi-token, sometimes missed)"
+
+  - pattern: "\\bfor\\s+(?:possible|probable|suspected)\\b"
+    description: "for possible/probable/suspected (incomplete modifier)"
+
+  - pattern: "\\bsent\\s+for\\b"
+    description: "sent for evaluation"

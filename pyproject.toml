@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cwyde"
+version = "0.1.0"
+description = "Formal semantics layer for clinical context classification, built on MedSpaCy"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Brian Chapman", email = "chapmanbe@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = [
+    "medspacy>=1.2.0",
+    "spacy>=3.7.0",
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+haskell = ["cwyde-haskell-bridge"]
+knowledge = ["cwyde-knowledge"]
+all = ["cwyde-haskell-bridge", "cwyde-knowledge"]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.4",
+]
+
+[project.urls]
+Repository = "https://github.com/chapmanbe/cwyde"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cwyde"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"

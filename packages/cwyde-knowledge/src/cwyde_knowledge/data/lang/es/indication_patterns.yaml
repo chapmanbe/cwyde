@@ -1,0 +1,15 @@
+schema_version: 1
+
+# Spanish indication patterns — v0.1 skeleton.
+# One validated pattern to prove multilingual plugin works end-to-end.
+# Full Spanish KB is v0.2+ scope.
+
+patterns:
+  - pattern: "\\bse\\s+descarta\\b"
+    description: "se descarta (rule out in Spanish — 'it is ruled out')"
+
+  - pattern: "\\bdescartar\\b"
+    description: "descartar (to rule out)"
+
+  - pattern: "\\bpara\\s+(?:descartar|excluir|evaluar)\\b"
+    description: "para descartar/excluir/evaluar (for ruling out/evaluating)"

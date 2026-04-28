@@ -1,0 +1,72 @@
+schema_version: 1
+
+# Section-level assertion propagation table.
+#
+# Maps medspaCy section category strings to the cwyde assertion that should be
+# injected for all findings within that section's body span.
+#
+# override_existing: false → sentence-level modifier wins over section context
+# override_existing: true  → section assertion wins (e.g., indication sections)
+# propagate_to_children: true → nested sections inherit this section's assertion
+#                               unless they have their own explicit mapping
+
+section_assertions:
+  past_medical_history:
+    applies: HISTORICAL
+    propagate_to_children: true
+    override_existing: false
+
+  past_history:
+    applies: HISTORICAL
+    propagate_to_children: true
+    override_existing: false
+
+  medical_history:
+    applies: HISTORICAL
+    propagate_to_children: true
+    override_existing: false
+
+  surgical_history:
+    applies: HISTORICAL
+    propagate_to_children: true
+    override_existing: false
+
+  family_history:
+    applies: FAMILY
+    propagate_to_children: true
+    override_existing: false
+
+  indication:
+    applies: INDICATION
+    propagate_to_children: true
+    override_existing: true
+
+  indication_for_study:
+    applies: INDICATION
+    propagate_to_children: true
+    override_existing: true
+
+  clinical_indication:
+    applies: INDICATION
+    propagate_to_children: true
+    override_existing: true
+
+  reason_for_exam:
+    applies: INDICATION
+    propagate_to_children: true
+    override_existing: true
+
+  reason_for_visit:
+    applies: INDICATION
+    propagate_to_children: true
+    override_existing: true
+
+  allergies:
+    applies: HISTORICAL
+    propagate_to_children: true
+    override_existing: false
+
+  social_history:
+    applies: HISTORICAL
+    propagate_to_children: false
+    override_existing: false
