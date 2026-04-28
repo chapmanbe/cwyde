@@ -91,14 +91,20 @@ class GamenBridge:
 
     def validate_formula(self, formula: "ModalFormula") -> ValidationResult:
         resp = self._call({
-            "action": "validate",
+            "action": "validate_formula",
             "formula": formula.to_tree_json(),
         })
-        return ValidationResult(**resp)
+        # Response: {"ok": true, "result": {"valid": true, "display": "□x", ...}}
+        inner = resp.get("result", resp)
+        valid = inner.get("valid", resp.get("ok", False))
+        return ValidationResult(ok=resp.get("ok", True), valid=valid)
 
     def check_consistency(self, formulas: list["ModalFormula"]) -> ConsistencyResult:
         resp = self._call({
             "action": "check_consistency",
             "formulas": [f.to_tree_json() for f in formulas],
         })
-        return ConsistencyResult(**resp)
+        # gamen-validate returns {"ok": true, "result": {"consistent": bool, ...}}
+        if "result" in resp and isinstance(resp["result"], dict):
+            consistent = resp["result"].get("consistent")
+            return ConsistencyResult(ok=resp.get("ok", True), consistent=consistent)

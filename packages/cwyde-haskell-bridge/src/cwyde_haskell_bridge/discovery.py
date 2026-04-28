@@ -48,8 +48,9 @@ def find_gamen_validate() -> Path | None:
 
     # 4. Cabal dist-newstyle in known project locations
     cabal_globs = [
+        # Local dist-newstyle build (package name may be gamen-hs-* or gamen-*)
         str(Path.home() / "Code" / "Haskell" / "gamen-hs" / "dist-newstyle" / "build" /
-            "*" / "ghc-*" / "gamen-hs-*" / "x" / "gamen-validate" / "build" / "gamen-validate" / "gamen-validate"),
+            "*" / "ghc-*" / "gamen-*" / "x" / "gamen-validate" / "build" / "gamen-validate" / "gamen-validate"),
         str(Path.home() / ".cabal" / "bin" / "gamen-validate"),
     ]
     for pattern in cabal_globs:
