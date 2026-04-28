@@ -11,6 +11,13 @@ Sits on top of medspaCy and provides:
 from cwyde.version import __version__
 from cwyde.categories import AssertionCategory
 
+# Import component modules to trigger @Language.factory registration
+import cwyde.components.category_mapper  # noqa: F401
+import cwyde.components.indication_detector  # noqa: F401
+import cwyde.components.conflict_resolver  # noqa: F401
+import cwyde.components.section_propagator  # noqa: F401
+import cwyde.components.consistency_checker  # noqa: F401
+
 __all__ = ["__version__", "AssertionCategory", "load"]
 
 

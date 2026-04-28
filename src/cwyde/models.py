@@ -116,6 +116,8 @@ class FallbackTableFile(_StrictModel):
 
 class LexiconEntry(_StrictModel):
     lex: str
+    # YAML parses bare 'no'/'yes' as booleans; coerce to str defensively
+    model_config = {"extra": "forbid", "coerce_numbers_to_str": False}
     regex: str | None = None
     direction: Literal["forward", "backward", "bidirectional", "terminate"]
     category: AssertionCategory

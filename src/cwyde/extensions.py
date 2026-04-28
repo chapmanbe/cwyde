@@ -14,7 +14,7 @@ from cwyde.categories import AssertionCategory
 
 def register_extensions() -> None:
     """Idempotent — safe to call multiple times."""
-    span_attrs = [
+    simple_span_attrs = [
         ("cwyde_assertion_category", AssertionCategory.DEFINITE_EXISTENCE),
         ("cwyde_modal_formula", None),
         ("cwyde_is_indication", False),
@@ -22,19 +22,16 @@ def register_extensions() -> None:
         ("cwyde_is_hypothetical", False),
         ("cwyde_is_family", False),
         ("cwyde_section_inherited", False),
-        ("cwyde_resolution_trace", None),
         ("cwyde_consistent", None),
     ]
 
-    for attr, default in span_attrs:
+    for attr, default in simple_span_attrs:
         if not Span.has_extension(attr):
             Span.set_extension(attr, default=default)
-        # list defaults must be factories to avoid shared state
+
+    # Use a factory for cwyde_resolution_trace to avoid shared mutable default
     if not Span.has_extension("cwyde_resolution_trace"):
         Span.set_extension("cwyde_resolution_trace", default=None)
-    else:
-        # Ensure it uses a factory for mutable default
-        pass
 
     doc_attrs = [
         ("cwyde_section_assertions", None),

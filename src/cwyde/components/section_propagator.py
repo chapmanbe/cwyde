@@ -117,13 +117,16 @@ class SectionPropagatorComponent:
                         override = anc_override
                         break
 
-            # Update section stack: discard ancestors whose body ended before this section
-            body = getattr(section, "body", None)
-            if body is None:
+            # body_span is a (start, end) token-index tuple in medspaCy
+            raw_body = getattr(section, "body_span", None)
+            if raw_body is None:
                 continue
+            body_start, body_end = raw_body
+
+            # Discard ancestors whose body ended before this section starts
             section_stack = [
                 entry for entry in section_stack
-                if getattr(entry[0], "body", None) and entry[0].body.end > body.start
+                if entry[0].body_span[1] > body_start
             ]
             section_stack.append((section, assertion, propagates, override))
 
@@ -134,7 +137,7 @@ class SectionPropagatorComponent:
 
             # Apply to all entities in this section's body span
             for ent in doc.ents:
-                if ent.start < body.start or ent.end > body.end:
+                if ent.start < body_start or ent.start >= body_end:
                     continue
 
                 resolved, changed = self._resolve_for_section(

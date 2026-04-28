@@ -1,0 +1,229 @@
+schema_version: 1
+
+# General clinical context modifiers — language-level hedging vocabulary
+# applicable across domains (not PE- or pneumonia-specific).
+# Source: standard clinical NLP modifier vocabulary; ConText/NegEx literature.
+
+entries:
+  # --- DEFINITE_NEGATED_EXISTENCE ---
+  - lex: "no"
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: no evidence of
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: without
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: absent
+    direction: bidirectional
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: negative for
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: free of
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: denied
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: denies
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: general
+
+  # --- PROBABLE_NEGATED_EXISTENCE ---
+  - lex: unlikely
+    direction: bidirectional
+    category: PROBABLE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: most likely not
+    direction: forward
+    category: PROBABLE_NEGATED_EXISTENCE
+    source: general
+
+  - lex: probably not
+    direction: forward
+    category: PROBABLE_NEGATED_EXISTENCE
+    source: general
+
+  # --- AMBIVALENT_EXISTENCE ---
+  - lex: cannot exclude
+    direction: forward
+    category: AMBIVALENT_EXISTENCE
+    source: general
+
+  - lex: cannot be excluded
+    direction: forward
+    category: AMBIVALENT_EXISTENCE
+    source: general
+
+  - lex: equivocal
+    direction: bidirectional
+    category: AMBIVALENT_EXISTENCE
+    source: general
+
+  - lex: indeterminate
+    direction: bidirectional
+    category: AMBIVALENT_EXISTENCE
+    source: general
+
+  # --- PROBABLE_EXISTENCE ---
+  - lex: probable
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: probable
+    direction: backward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: probably
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: likely
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: possible
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: possibly
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: suspected
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: consistent with
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: may represent
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  - lex: suspicious for
+    direction: forward
+    category: PROBABLE_EXISTENCE
+    source: general
+
+  # --- HISTORICAL ---
+  - lex: history of
+    direction: forward
+    category: HISTORICAL
+    source: general
+
+  - lex: prior
+    direction: forward
+    category: HISTORICAL
+    source: general
+
+  - lex: previous
+    direction: forward
+    category: HISTORICAL
+    source: general
+
+  - lex: known
+    direction: forward
+    category: HISTORICAL
+    source: general
+
+  - lex: h/o
+    direction: forward
+    category: HISTORICAL
+    source: general
+
+  - lex: hx of
+    direction: forward
+    category: HISTORICAL
+    source: general
+
+  # --- HYPOTHETICAL ---
+  - lex: if
+    direction: forward
+    category: HYPOTHETICAL
+    source: general
+
+  - lex: in the event of
+    direction: forward
+    category: HYPOTHETICAL
+    source: general
+
+  - lex: should
+    direction: forward
+    category: HYPOTHETICAL
+    source: general
+
+  # --- FAMILY ---
+  - lex: family history of
+    direction: forward
+    category: FAMILY
+    source: general
+
+  - lex: father
+    direction: bidirectional
+    category: FAMILY
+    source: general
+
+  - lex: mother
+    direction: bidirectional
+    category: FAMILY
+    source: general
+
+  - lex: sibling
+    direction: bidirectional
+    category: FAMILY
+    source: general
+
+  - lex: fh of
+    direction: forward
+    category: FAMILY
+    source: general
+
+  # --- INDICATION ---
+  - lex: rule out
+    direction: forward
+    category: INDICATION
+    source: general
+
+  - lex: r/o
+    direction: forward
+    category: INDICATION
+    source: general
+
+  - lex: evaluate for
+    direction: forward
+    category: INDICATION
+    source: general
+
+  - lex: to assess for
+    direction: forward
+    category: INDICATION
+    source: general
