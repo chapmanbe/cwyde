@@ -149,6 +149,22 @@ class PatternFile(_StrictModel):
 # Language plugin config (lang/*/plugin.yaml)
 # ---------------------------------------------------------------------------
 
+class ReproCase(_StrictModel):
+    text: str
+    target: str
+    expected_category: AssertionCategory
+    note: str = ""
+
+
+class ReproCasesFile(_StrictModel):
+    schema_version: int
+    source: str = ""
+    cases: list[ReproCase]
+
+
+# ---------------------------------------------------------------------------
+
+
 class LanguagePluginConfig(_StrictModel):
     schema_version: int
     code: str

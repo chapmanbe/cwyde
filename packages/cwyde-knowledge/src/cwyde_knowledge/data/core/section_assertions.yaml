@@ -61,10 +61,15 @@ section_assertions:
     propagate_to_children: true
     override_existing: true
 
-  # medspaCy default sectionizer category for "INDICATION:" header in radiology reports
-  # Note: labs_and_studies is NOT mapped to INDICATION here — it also matches actual
-  # lab result sections where INDICATION would be wrong. The indication_detector component
-  # handles sentence-level "rule out" patterns instead.
+  # medspaCy default sectionizer category for "INDICATION:" headers in radiology reports.
+  # override_existing=True because indication context (rule-out) overrides sentence-level
+  # existence modifiers — the study is being ordered to investigate, not confirm.
+  labs_and_studies:
+    applies: INDICATION
+    propagate_to_children: true
+    override_existing: true
+
+
   reason_for_examination:
     applies: INDICATION
     propagate_to_children: true
@@ -80,7 +85,8 @@ section_assertions:
     propagate_to_children: false
     override_existing: false
 
-  allergies:
+  # medspaCy sectionizer uses 'allergy' (singular) for "ALLERGIES:" headers
+  allergy:
     applies: HISTORICAL
     propagate_to_children: true
     override_existing: false

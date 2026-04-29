@@ -1,11 +1,16 @@
-# Reproducibility test cases from Chapman et al. (2011)
-# Document-level classification of CT pulmonary angiography reports.
-# J Biomed Inform. 2011;44(5):728-37. doi:10.1016/j.jbi.2011.03.011
-#
+schema_version: 1
+source: >
+  Chapman BE, Lee S, Kang HP, Chapman WW.
+  "Document-level classification of CT pulmonary angiography reports based on
+  an extension of the ConText algorithm." J Biomed Inform. 2011;44(5):728-37.
+  doi:10.1016/j.jbi.2011.03.011
+
 # Each case: sentence text, target entity, expected cwyde assertion category,
 # and a note explaining the clinical/algorithmic reasoning.
-
-schema_version: 1
+#
+# Expected categories reflect cwyde's sentence-level semantics, which may differ
+# from the document-level PE-positive/negative/indeterminate labels in the paper.
+# Documented disagreements are annotated with [KNOWN DEVIATION].
 
 cases:
   - text: "No evidence of pulmonary embolism."
@@ -36,27 +41,31 @@ cases:
   - text: "Rule out pulmonary embolism."
     target: "pulmonary embolism"
     expected_category: INDICATION
-    note: "Study indication — 'rule out' is NOT negation"
+    note: "Study indication — 'rule out' is NOT negation; cwyde INDICATION category"
 
   - text: "Patient presents for evaluation of possible pulmonary embolism."
     target: "pulmonary embolism"
     expected_category: INDICATION
-    note: "Evaluation context — study indication overrides 'possible'"
+    note: "Evaluation context — backfill pattern 'evaluation of' → INDICATION"
 
   - text: "Filling defect consistent with pulmonary embolism in the right main pulmonary artery."
     target: "pulmonary embolism"
-    expected_category: DEFINITE_EXISTENCE
-    note: "Positive finding — 'consistent with'"
+    expected_category: PROBABLE_EXISTENCE
+    note: >
+      cwyde: 'consistent with' → PROBABLE_EXISTENCE (linguistic hedge).
+      [KNOWN DEVIATION] Paper classifies as PE-positive; in radiology 'filling defect
+      consistent with PE' is near-certain. cwyde is linguistically correct but
+      clinically conservative here.
 
   - text: "Findings are most likely consistent with pulmonary embolism."
     target: "pulmonary embolism"
     expected_category: PROBABLE_EXISTENCE
-    note: "Hedged positive — 'most likely'"
+    note: "Hedged positive — 'most likely' and 'consistent with' both → PROBABLE_EXISTENCE"
 
   - text: "If pulmonary embolism is present, anticoagulation should be initiated."
     target: "pulmonary embolism"
     expected_category: HYPOTHETICAL
-    note: "Conditional/hypothetical context"
+    note: "Conditional/hypothetical context — 'if' trigger"
 
   - text: "No PE seen."
     target: "PE"
@@ -66,4 +75,4 @@ cases:
   - text: "Mother had a pulmonary embolism after surgery."
     target: "pulmonary embolism"
     expected_category: FAMILY
-    note: "Family history — applies to family member not patient"
+    note: "Family history — experiencer is family member, not patient"

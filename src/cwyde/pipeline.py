@@ -49,7 +49,12 @@ def add_to(nlp, *, lang: str = "en", skip_consistency: bool = False) -> None:
 
 
 def _load_lexicons_into_context(nlp, lang: str) -> None:
-    """Load cwyde-knowledge lexicon entries into medspaCy's ConText component."""
+    """Load cwyde-knowledge lexicon entries into medspaCy's ConText component.
+
+    cwyde rules supersede any medspaCy default rules for the same literal.
+    When multiple lexicon files define the same (lex, direction) pair, the last
+    definition wins — general_modifiers.yaml is loaded last and takes precedence.
+    """
     context_pipe = None
     for name in ("medspacy_context", "context"):
         if name in nlp.pipe_names:
@@ -65,28 +70,75 @@ def _load_lexicons_into_context(nlp, lang: str) -> None:
         from cwyde.kb import load_lexicon
 
         plugin = get_plugin(lang)
-        rules = []
+
+        # Collect entries; last definition for a given literal wins.
+        # lexicon_paths() orders general_modifiers.yaml last so it supersedes
+        # legacy KB files for any literal it defines.
+        seen: dict[str, ConTextRule] = {}
         for lex_path in plugin.lexicon_paths():
             try:
                 lexicon = load_lexicon(lex_path)
                 for entry in lexicon.entries:
                     if entry.direction == "terminate":
-                        continue  # terminate handled separately
+                        continue
                     rule = ConTextRule(
                         literal=entry.lex,
                         category=entry.category.value,
                         direction=entry.direction.upper(),
                         pattern=entry.regex or None,
                     )
-                    rules.append(rule)
+                    seen[entry.lex.lower()] = rule
             except Exception as exc:
                 logger.warning("Failed to load lexicon %s: %s", lex_path, exc)
 
-        if rules:
-            context_pipe.add(rules)
-            logger.debug("Loaded %d ConText rules from cwyde-knowledge (%s)", len(rules), lang)
+        rules = list(seen.values())
+        if not rules:
+            return
+
+        # Remove any medspaCy default rules that share a literal with a cwyde rule.
+        # This prevents duplicate matches for the same span — medspaCy's pruning
+        # would otherwise keep whichever rule was added first (medspaCy's default),
+        # which may have the wrong direction or category.
+        cwyde_literals = {r.literal.lower() for r in rules}
+        _remove_conflicting_defaults(context_pipe, cwyde_literals)
+
+        context_pipe.add(rules)
+        logger.debug("Loaded %d ConText rules from cwyde-knowledge (%s)", len(rules), lang)
     except Exception as exc:
         logger.warning("Could not load cwyde lexicons into ConText: %s", exc)
+
+
+def _remove_conflicting_defaults(context_pipe, cwyde_literals: set[str]) -> None:
+    """Remove medspaCy default ConText rules whose literal appears in cwyde_literals.
+
+    Accesses medspaCy's internal matcher structures via their semi-private names.
+    Both spaCy PhraseMatcher and Matcher support remove(); we try both.
+    """
+    try:
+        internal_matcher = context_pipe._ConText__matcher
+        phrase_matcher = internal_matcher._MedspacyMatcher__phrase_matcher
+        token_matcher = internal_matcher._MedspacyMatcher__matcher
+        rule_map = internal_matcher._rule_map
+
+        to_remove = [
+            rule_id
+            for rule_id, rule in list(rule_map.items())
+            if rule.literal.lower() in cwyde_literals
+        ]
+        for rule_id in to_remove:
+            for matcher in (phrase_matcher, token_matcher):
+                try:
+                    matcher.remove(rule_id)
+                except (KeyError, ValueError):
+                    pass
+            rule_map.pop(rule_id, None)
+        if to_remove:
+            logger.debug(
+                "Removed %d medspaCy default ConText rules superseded by cwyde lexicons",
+                len(to_remove),
+            )
+    except AttributeError as exc:
+        logger.debug("Could not remove conflicting defaults (medspaCy internals changed?): %s", exc)
 
 
 def _add_if_missing(nlp, name: str, config: dict) -> None:
@@ -101,6 +153,7 @@ def build_pipeline(lang: str = "en"):
     """
     import medspacy
 
-    nlp = medspacy.load(enable=["sectionizer", "context"])
+    nlp = medspacy.load()
+    nlp.add_pipe("medspacy_sectionizer")
     add_to(nlp, lang=lang)
     return nlp

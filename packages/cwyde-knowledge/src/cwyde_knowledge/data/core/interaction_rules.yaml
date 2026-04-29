@@ -41,14 +41,28 @@ overrides:
       "Probably no X" — negation of a probable finding is probable negation,
       not definite negation. Submit to gamen for formal verification.
 
-  # Historical + current negation: a different clinical state
-  - modifiers: [HISTORICAL, DEFINITE_NEGATED_EXISTENCE]
-    result: HISTORICAL
+  # Family + historical: experiencer axis (FAMILY) overrides temporality (HISTORICAL)
+  # Handles "FAMILY HISTORY: X" where ConText applies both FAMILY (from "family") and
+  # HISTORICAL (from "history") as modifiers from the section header text.
+  - modifiers: [FAMILY, HISTORICAL]
+    result: FAMILY
+    submit_to_gamen: false
+    rationale: Experiencer axis (FAMILY) overrides temporality axis (HISTORICAL).
+
+  # Hypothetical + existence: hypothetical context wins.
+  # "If PE is present, treat with heparin." — "is present" inside the conditional
+  # clause does not affirm existence; the sentence is a hypothesis, not an assertion.
+  - modifiers: [HYPOTHETICAL, DEFINITE_EXISTENCE]
+    result: HYPOTHETICAL
     submit_to_gamen: false
     rationale: >
-      "No prior history of X" — the negation applies to the historical context,
-      not to current presence. Result is HISTORICAL with the negation preserved
-      as a flag rather than changing the category.
+      The finding appears inside a conditional clause ("if X is present"). The
+      existence modifier is embedded in the hypothesis, not asserting the finding.
+
+  - modifiers: [HYPOTHETICAL, PROBABLE_EXISTENCE]
+    result: HYPOTHETICAL
+    submit_to_gamen: false
+    rationale: Same as above — hypothetical context overrides existence hedging.
 
   # Family + any existence modifier: family wins (experiencer axis overrides)
   - modifiers: [FAMILY, DEFINITE_EXISTENCE]

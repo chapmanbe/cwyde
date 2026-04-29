@@ -11,10 +11,38 @@ entries:
     category: DEFINITE_NEGATED_EXISTENCE
     source: general
 
+  # Section-body negation: ": no" / ": none" as FORWARD applies to entities after ":"
+  # Counteracts medspaCy's built-in ": no" BACKWARD rule that would consume "No"
+  # and prevent it from scoping forward into section bodies.
+  - lex: ": no"
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: cwyde
+
+  - lex: ": none"
+    direction: forward
+    category: DEFINITE_NEGATED_EXISTENCE
+    source: cwyde
+
   - lex: no evidence of
     direction: forward
     category: DEFINITE_NEGATED_EXISTENCE
     source: general
+
+  # "No [finding] to suggest [diagnosis]" is a hedged negation: absence of a specific
+  # imaging finding rather than direct negation of the diagnosis. This warrants
+  # PROBABLE_NEGATED, not DEFINITE_NEGATED ("No pulmonary embolism" is definite;
+  # "No filling defect to suggest PE" is indirect/epistemic).
+  #
+  # Also supersedes the legacy KB cross-sentence regex (\b(without|no)\b[\d\D\s]*to suggest)
+  # which used [\d\D\s]* and spanned sentence boundaries. The replacement regex
+  # (?i)\bno\b[^\n.!?]+\bto suggest\b stops at sentence-ending punctuation and newlines.
+  # The longer match wins medspaCy overlap pruning over the shorter plain 'no' rule.
+  - lex: no XYZ to suggest
+    direction: forward
+    category: PROBABLE_NEGATED_EXISTENCE
+    regex: "(?i)\\bno\\b[^\\n.!?]+\\bto suggest\\b"
+    source: cwyde
 
   - lex: without
     direction: forward
@@ -84,13 +112,9 @@ entries:
     source: general
 
   # --- PROBABLE_EXISTENCE ---
+  # BIDIRECTIONAL: "probable" precedes or follows the finding ("probable PE", "PE, probable")
   - lex: probable
-    direction: forward
-    category: PROBABLE_EXISTENCE
-    source: general
-
-  - lex: probable
-    direction: backward
+    direction: bidirectional
     category: PROBABLE_EXISTENCE
     source: general
 

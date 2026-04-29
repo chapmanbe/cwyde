@@ -15,7 +15,12 @@ class EnglishPlugin:
         return data_root() / "lang" / "en"
 
     def lexicon_paths(self) -> list[Path]:
-        return list((self._data_root() / "lexicon").glob("*.yaml"))
+        lex_dir = self._data_root() / "lexicon"
+        # general_modifiers.yaml loads last so its entries supersede legacy KB files
+        # for any literal it defines.
+        general = lex_dir / "general_modifiers.yaml"
+        others = sorted(p for p in lex_dir.glob("*.yaml") if p.name != "general_modifiers.yaml")
+        return others + ([general] if general.exists() else [])
 
     def indication_patterns(self) -> list[Path]:
         return [self._data_root() / "indication_patterns.yaml"]

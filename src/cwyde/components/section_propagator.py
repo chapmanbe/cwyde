@@ -109,25 +109,28 @@ class SectionPropagatorComponent:
             # Resolve assertion for this section, potentially inherited from nearest ancestor
             assertion, propagates, override = self._get_section_assertion(category)
 
-            if assertion is None and section_stack:
-                # Walk the stack for the nearest ancestor that propagates to children
-                for _anc_section, anc_assertion, anc_propagates, anc_override in reversed(section_stack):
-                    if anc_assertion is not None and anc_propagates:
-                        assertion = anc_assertion
-                        override = anc_override
-                        break
-
             # body_span is a (start, end) token-index tuple in medspaCy
             raw_body = getattr(section, "body_span", None)
             if raw_body is None:
                 continue
             body_start, body_end = raw_body
 
-            # Discard ancestors whose body ended before this section starts
+            # Prune ancestors whose body ended before this section starts — must happen
+            # before the ancestor-inheritance lookup so sequential (non-nested) sections
+            # don't inherit from their predecessor.
             section_stack = [
                 entry for entry in section_stack
                 if entry[0].body_span[1] > body_start
             ]
+
+            if assertion is None and section_stack:
+                # Walk the (now-pruned) stack for the nearest ancestor that propagates
+                for _anc_section, anc_assertion, anc_propagates, anc_override in reversed(section_stack):
+                    if anc_assertion is not None and anc_propagates:
+                        assertion = anc_assertion
+                        override = anc_override
+                        break
+
             section_stack.append((section, assertion, propagates, override))
 
             if assertion is None:

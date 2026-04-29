@@ -21,6 +21,7 @@ from cwyde.models import (
     MedSpaCyCategoryMapFile,
     ModalMappingFile,
     PatternFile,
+    ReproCasesFile,
     SectionAssertionsFile,
 )
 
@@ -67,3 +68,7 @@ def load_patterns(path: Path) -> PatternFile:
 
 def load_language_plugin_config(path: Path) -> LanguagePluginConfig:
     return _load(path, LanguagePluginConfig)
+
+
+def load_repro_cases(path: Path) -> ReproCasesFile:
+    return _load(path, ReproCasesFile)

@@ -1,0 +1,108 @@
+schema_version: 1
+source: >
+  Harkema H, Dowling JN, Thornblade T, Chapman WW.
+  "ConText: An Algorithm for Determining Negation, Experiencer, and Temporal Status
+  from Clinical Reports." J Biomed Inform. 2009;42(5):839-51.
+  doi:10.1016/j.jbi.2009.05.002
+
+# cwyde maps Harkema's three ConText axes:
+#   negation:   AFFIRMED → DEFINITE/PROBABLE_EXISTENCE; NEGATED → DEFINITE/PROBABLE_NEGATED
+#   experiencer: OTHER/FAMILY → FAMILY
+#   temporal:   HISTORICAL → HISTORICAL; HYPOTHETICAL → HYPOTHETICAL
+#
+# Note on scope: Harkema evaluated ConText at sentence level on ED notes, radiology
+# reports, and discharge summaries. cwyde adds INDICATION as a fourth category
+# (not present in the original paper) and distinguishes DEFINITE vs PROBABLE negation.
+
+cases:
+  # --- Negation: NEGATED (DEFINITE) ---
+  - text: "No evidence of pneumonia."
+    target: "pneumonia"
+    expected_category: DEFINITE_NEGATED_EXISTENCE
+    note: "ConText NEGATED: 'no evidence of' — canonical forward negation trigger"
+
+  - text: "The chest x-ray revealed no pneumonia."
+    target: "pneumonia"
+    expected_category: DEFINITE_NEGATED_EXISTENCE
+    note: "ConText NEGATED: 'no' preceding target via forward trigger"
+
+  - text: "There were no echocardiographic signs of right heart strain."
+    target: "right heart strain"
+    expected_category: UNRESOLVED
+    note: >
+      ConText NEGATED in original paper. cwyde: 'no' (NEGATED) conflicts with
+      'signs of' (PROBABLE_EXISTENCE from legacy KB). Override
+      [NEGATED+PROBABLE→PROBABLE_NEGATED] has submit_to_gamen=true; without
+      gamen-validate available the result is UNRESOLVED. Expected output is
+      PROBABLE_NEGATED_EXISTENCE when gamen is available.
+
+  - text: "Patient denies chest pain."
+    target: "chest pain"
+    expected_category: DEFINITE_NEGATED_EXISTENCE
+    note: "ConText NEGATED: 'denies' — patient-reported negation"
+
+  - text: "Free of DVT."
+    target: "DVT"
+    expected_category: DEFINITE_NEGATED_EXISTENCE
+    note: "ConText NEGATED: 'free of' forward negation trigger"
+
+  # --- Negation: PROBABLE NEGATED ---
+  - text: "Pneumonia is unlikely."
+    target: "pneumonia"
+    expected_category: PROBABLE_NEGATED_EXISTENCE
+    note: "cwyde extension: 'unlikely' → PROBABLE_NEGATED, not binary NEGATED"
+
+  # --- Negation: AFFIRMED (uncertain) ---
+  - text: "Cannot exclude PE."
+    target: "PE"
+    expected_category: AMBIVALENT_EXISTENCE
+    note: "cwyde extension: 'cannot exclude' → AMBIVALENT_EXISTENCE (not in original ConText)"
+
+  # --- Negation: AFFIRMED ---
+  - text: "Bilateral pneumonia confirmed on CT."
+    target: "pneumonia"
+    expected_category: DEFINITE_EXISTENCE
+    note: "ConText AFFIRMED: no modifier present"
+
+  - text: "Echocardiographic changes consistent with right heart strain."
+    target: "right heart strain"
+    expected_category: PROBABLE_EXISTENCE
+    note: "cwyde: 'consistent with' → PROBABLE_EXISTENCE; clinical radiology often treats as AFFIRMED"
+
+  # --- Temporal: HISTORICAL ---
+  - text: "History of DVT."
+    target: "DVT"
+    expected_category: HISTORICAL
+    note: "ConText HISTORICAL: 'history of' — canonical past-temporal trigger"
+
+  - text: "Prior PE on CTA two years ago."
+    target: "PE"
+    expected_category: HISTORICAL
+    note: "ConText HISTORICAL: 'prior' forward trigger"
+
+  - text: "Previous echocardiogram showed right heart strain."
+    target: "right heart strain"
+    expected_category: HISTORICAL
+    note: "ConText HISTORICAL: 'previous' forward trigger"
+
+  # --- Temporal: HYPOTHETICAL ---
+  - text: "If pneumonia is confirmed, start antibiotics."
+    target: "pneumonia"
+    expected_category: HYPOTHETICAL
+    note: "ConText HYPOTHETICAL: 'if' forward trigger"
+
+  - text: "In the event of PE, anticoagulate."
+    target: "PE"
+    expected_category: HYPOTHETICAL
+    note: "ConText HYPOTHETICAL: 'in the event of' trigger"
+
+  # --- Experiencer: OTHER / FAMILY ---
+  - text: "Mother had a pulmonary embolism."
+    target: "pulmonary embolism"
+    expected_category: FAMILY
+    note: "ConText OTHER experiencer: 'mother' bidirectional FAMILY trigger"
+
+  - text: "Father with known DVT."
+    target: "DVT"
+    expected_category: FAMILY
+    note: "ConText OTHER experiencer: 'father' bidirectional FAMILY trigger"
