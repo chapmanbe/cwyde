@@ -107,14 +107,14 @@ class Diamond(ModalFormula):
 
 @dataclass
 class Past(ModalFormula):
-    """P(φ) — was the case at some past time."""
+    """P(φ) — was the case at some past time (existential past / PastDiamond in gamen-hs)."""
     operand: ModalFormula
 
     def to_tree_json(self):
-        return {"type": "past", "operand": self.operand.to_tree_json()}
+        return {"type": "past_diamond", "operand": self.operand.to_tree_json()}
 
     def to_flat_extraction(self):
-        return {"op": "past", "operand": self.operand.to_flat_extraction()}
+        return {"op": "past_diamond", "operand": self.operand.to_flat_extraction()}
 
 
 @dataclass

@@ -49,7 +49,7 @@ def test_indication_encoding():
 
 def test_past_tree():
     f = Past(Atom("pe"))
-    assert f.to_tree_json() == {"type": "past", "operand": {"type": "atom", "name": "pe"}}
+    assert f.to_tree_json() == {"type": "past_diamond", "operand": {"type": "atom", "name": "pe"}}
 
 
 def test_and_tree():
