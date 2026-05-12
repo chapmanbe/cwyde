@@ -208,11 +208,12 @@ def get_pe_entities(nlp, text: str):
     return hits
 
 
-# Find first report with PE entities in both sections
+# Find first report with PE entities on both sides and no UNRESOLVED categories
 for rid, orig, imp_col, gold in rows:
     f_hits = get_pe_entities(nlp, extract_findings(orig))
     i_hits = get_pe_entities(nlp, clean_impression(imp_col))
-    if f_hits and i_hits:
+    all_resolved = all(r is not None for _, _, r in f_hits + i_hits)
+    if f_hits and i_hits and all_resolved:
         print(f"Report id={rid}  gold={gold}")
         print()
         print("FINDINGS entities:")
@@ -240,11 +241,11 @@ for rid, orig, imp_col, gold in rows:
 md("""\
 ## 5. Dev-set analysis
 
-We run cwyde across all 249 development reports (id ≤ 250).
+We run cwyde across all 181 labeled development records (id ≤ 250, joined to consensus_states).
 
-**Coverage note**: 152 reports have a NULL `originalreport` — the database only stored
-their impression. Of the 97 with full reports, 71 have a structured FINDINGS section,
-and cwyde finds numeric PE entities in 34 of those.
+**Coverage note**: 138 of these 181 records have a NULL `originalreport` — the database
+only stored their impression. Of the 43 with full reports, 41 have a structured FINDINGS
+section, and cwyde finds numeric PE entities in 34 of those.
 
 Analysis proceeds at two levels:
 
@@ -380,7 +381,7 @@ md("""\
 
 **Why FINDINGS coverage is low (34/181)**
 
-- **152 NULL originals**: the database stores only the impression for many reports. This is common in retrospective datasets where only the salient conclusion was captured.
+- **138 NULL originals**: the database stores only the impression for these records. This is not data corruption — investigation of multiple database versions confirmed that `originalreport` was never populated; the peFinder paper was an impression-only study. The 43 records with full reports were added in a later database update (`pedocUpdate.db`).
 - **Lexicon coverage**: the current target lexicon has 8 PE terms. Clinical text uses many synonyms and paraphrases ("vascular filling defect", "intraluminal defect", "saddle embolism") that require a broader lexicon for production use.
 - **Section header variation**: some reports use "INTERPRETATION:" or "CONCLUSION:" instead of "FINDINGS:", which the regex misses.
 
