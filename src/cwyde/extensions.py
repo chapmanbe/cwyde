@@ -17,6 +17,7 @@ def register_extensions() -> None:
     simple_span_attrs = [
         ("cwyde_assertion_category", AssertionCategory.DEFINITE_EXISTENCE),
         ("cwyde_modal_formula", None),
+        ("cwyde_belief_agent", "clinician"),
         ("cwyde_is_indication", False),
         ("cwyde_is_historical", False),
         ("cwyde_is_hypothetical", False),
@@ -36,6 +37,8 @@ def register_extensions() -> None:
     doc_attrs = [
         ("cwyde_section_assertions", None),
         ("cwyde_inconsistencies", None),
+        ("cwyde_author", None),
+        ("cwyde_authored_at", None),
     ]
 
     for attr, default in doc_attrs:

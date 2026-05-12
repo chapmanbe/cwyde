@@ -1,9 +1,10 @@
-schema_version: 1
+schema_version: 3
 
 categories:
   - category: DEFINITE_EXISTENCE
-    modal_reading: "□X — necessarily present"
-    modal_formula: "Box(Atom(x))"
+    modal_reading: "τ_clinician(X) = 2 — clinician believes X present at firmness 2"
+    modal_formula: "RankedBelief(clinician, 2, Atom(x))"
+    agent_scope: clinician
     axis: existence
     description: >
       The finding is asserted as definitively present. No hedge, qualification,
@@ -11,35 +12,43 @@ categories:
     overrides: []
 
   - category: PROBABLE_EXISTENCE
-    modal_reading: "◇X — possibly present"
-    modal_formula: "Diamond(Atom(x))"
+    modal_reading: "τ_clinician(X) = 1 — clinician believes X present at firmness 1"
+    modal_formula: "RankedBelief(clinician, 1, Atom(x))"
+    agent_scope: clinician
     axis: existence
     description: >
       The finding is probably or possibly present. Hedged with language such as
       "probable," "likely," "possible," "cannot exclude."
+      Grade encoded in the signed rank: firmness 1 vs 2 for DEFINITE.
     overrides: []
 
   - category: AMBIVALENT_EXISTENCE
-    modal_reading: "◇X ∧ ◇¬X — indeterminate"
-    modal_formula: "And(Diamond(Atom(x)), Diamond(Not(Atom(x))))"
+    modal_reading: "τ_clinician(X) = 0 — clinician explicitly neutral; neither X nor ¬X is disbelieved"
+    modal_formula: "RankedBelief(clinician, 0, Atom(x))"
+    agent_scope: clinician
     axis: existence
     description: >
       The clinician is genuinely uncertain: finding could be present or absent.
       "Equivocal," "indeterminate," "could represent X or Y."
+      τ=0 encodes genuine neutrality, not 50/50 probability: Spohn's Theorem 2(a)
+      guarantees one of κ(X) or κ(¬X) is always 0, so τ=0 means both are 0.
     overrides: []
 
   - category: PROBABLE_NEGATED_EXISTENCE
-    modal_reading: "◇¬X — possibly absent"
-    modal_formula: "Diamond(Not(Atom(x)))"
+    modal_reading: "τ_clinician(X) = -1 — clinician disbelieves X at firmness 1 (believes ¬X at firmness 1)"
+    modal_formula: "RankedBelief(clinician, -1, Atom(x))"
+    agent_scope: clinician
     axis: existence
     description: >
       The finding is probably absent. Hedged negation: "probably no," "unlikely
       to represent," "most likely not."
+      Negative rank encodes disbelief in X / belief in ¬X.
     overrides: []
 
   - category: DEFINITE_NEGATED_EXISTENCE
-    modal_reading: "□¬X — necessarily absent"
-    modal_formula: "Box(Not(Atom(x)))"
+    modal_reading: "τ_clinician(X) = -2 — clinician disbelieves X at firmness 2 (believes ¬X at firmness 2)"
+    modal_formula: "RankedBelief(clinician, -2, Atom(x))"
+    agent_scope: clinician
     axis: existence
     description: >
       The finding is definitively absent. Clear negation: "no," "absent,"
@@ -49,20 +58,23 @@ categories:
       - AMBIVALENT_EXISTENCE
 
   - category: INDICATION
-    modal_reading: "?(X) — under investigation"
+    modal_reading: "¬K_clinician(X) ∧ ¬K_clinician(¬X) — clinician investigating"
     modal_formula: "And(Not(Knowledge(clinician, Atom(x))), Not(Knowledge(clinician, Not(Atom(x)))))"
+    agent_scope: clinician
     axis: epistemic
     description: >
       The finding is the reason for the study — neither asserted nor denied.
       "Rule out X," "evaluate for X," "to assess for X."
       Critically: INDICATION is not negation. The patient may have X.
+      INDICATION is the only category correctly encoded in v0.1 (already epistemic).
     overrides:
       - DEFINITE_NEGATED_EXISTENCE
       - PROBABLE_NEGATED_EXISTENCE
 
   - category: HISTORICAL
-    modal_reading: "P(X) — was the case"
-    modal_formula: "Past(Atom(x))"
+    modal_reading: "B_clinician(P(X)) — clinician believes X was the case"
+    modal_formula: "Belief(clinician, Past(Atom(x)))"
+    agent_scope: clinician
     axis: temporality
     description: >
       The finding was present in the past but is not being asserted about the
@@ -70,26 +82,33 @@ categories:
     overrides: []
 
   - category: HYPOTHETICAL
-    modal_reading: "hyp(X) — in a conditional scenario"
-    modal_formula: "Diamond(Atom(x))"
+    modal_reading: "B_clinician(X) — clinician believes X in conditional context"
+    modal_formula: "Belief(clinician, Atom(x))"
+    agent_scope: clinician
     axis: temporality
     description: >
       The finding is mentioned in a hypothetical or conditional context.
       "If X develops," "should X occur," "in the event of."
+      The hypothetical framing is in the category; the formula captures belief in X
+      scoped to the conditional context.
     overrides: []
 
   - category: FAMILY
-    modal_reading: "fam(X) — applies to family member"
-    modal_formula: "Knowledge(family, Atom(x))"
+    modal_reading: "B_clinician(X_family) — clinician believes X holds of family member"
+    modal_formula: "Belief(clinician, Atom(x_family))"
+    agent_scope: clinician
     axis: experiencer
     description: >
       The finding applies to a family member, not the patient.
       "Family history of," "mother had," "father with."
+      Encoded via sortal atomisation: the atom name gains a _family suffix so the
+      patient-entity and family-entity remain distinct in the belief context.
     overrides: []
 
   - category: UNRESOLVED
     modal_reading: "⊥ — conflict not resolvable"
     modal_formula: "null"
+    agent_scope: null
     axis: existence
     description: >
       Multiple modifiers co-occur and no resolution rule applies.

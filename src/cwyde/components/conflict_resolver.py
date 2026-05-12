@@ -61,7 +61,7 @@ class ConflictResolverComponent:
             ent._.cwyde_assertion_category = result
             if result != AssertionCategory.UNRESOLVED:
                 from cwyde.formal.translator import category_to_formula
-                ent._.cwyde_modal_formula = category_to_formula(result, ent.text)
+                ent._.cwyde_modal_formula = category_to_formula(result, ent.text, agent=ent._.cwyde_belief_agent)
             ent._.cwyde_resolution_trace.append(
                 {"step": "conflict_resolver", "input": [c.value for c in categories], "result": result.value}
             )

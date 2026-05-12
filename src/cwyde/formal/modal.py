@@ -1,7 +1,7 @@
 """
-Modal formula dataclass tree mirroring gamen-hs's 24-constructor JSON format.
+Modal formula dataclass tree mirroring gamen-hs's 26-constructor JSON format.
 
-v0.1 implements the 12 constructors needed for clinical assertion categories.
+Implements the constructors needed for clinical assertion categories.
 Stubbed constructors raise NotImplementedError to fail loudly rather than silently.
 
 gamen-hs tree format reference: ~/Code/Haskell/gamen-hs/validate/Main.hs
@@ -152,6 +152,51 @@ class Knowledge(ModalFormula):
 
     def to_flat_extraction(self):
         return {"op": "knows", "agent": self.agent, "operand": self.operand.to_flat_extraction()}
+
+
+@dataclass
+class Belief(ModalFormula):
+    """B_a(φ) — agent a believes φ. Non-factive (KD45); B_a(φ) does not entail φ."""
+    agent: str
+    operand: ModalFormula
+
+    def to_tree_json(self):
+        return {"type": "belief", "agent": self.agent, "operand": self.operand.to_tree_json()}
+
+    def to_flat_extraction(self):
+        return {"op": "believes", "agent": self.agent, "operand": self.operand.to_flat_extraction()}
+
+
+@dataclass
+class RankedBelief(ModalFormula):
+    """τ_a(φ) = n — agent a's doxastic rank for φ (Spohn 1988 OCF, signed-int encoding).
+
+    n > 0: belief in φ at firmness n.
+    n < 0: disbelief in φ at firmness |n| (equivalently, belief in ¬φ at firmness |n|).
+    n = 0: explicit neutrality — neither φ nor ¬φ is disbelieved.
+
+    Spohn's Theorem 2(a) is built in: the signed int encodes one side of the κ pair,
+    so no separate closure rule is needed.
+    """
+    agent: str
+    rank: int
+    operand: ModalFormula
+
+    def to_tree_json(self):
+        return {
+            "type": "ranked_belief",
+            "agent": self.agent,
+            "rank": self.rank,
+            "operand": self.operand.to_tree_json(),
+        }
+
+    def to_flat_extraction(self):
+        return {
+            "op": "ranked_belief",
+            "agent": self.agent,
+            "rank": self.rank,
+            "operand": self.operand.to_flat_extraction(),
+        }
 
 
 @dataclass

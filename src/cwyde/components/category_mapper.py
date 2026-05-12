@@ -41,12 +41,15 @@ class CategoryMapperComponent:
         lookup = {e.medspacy_category: e.cwyde_category for e in self._map.mappings}
         default = self._map.unmapped_default
 
+        doc_agent = doc._.cwyde_author or "clinician"
+
         for ent in doc.ents:
+            ent._.cwyde_belief_agent = doc_agent
             modifiers = getattr(ent._, "modifiers", None) or []
             if not modifiers:
                 ent._.cwyde_assertion_category = AssertionCategory.DEFINITE_EXISTENCE
                 ent._.cwyde_modal_formula = category_to_formula(
-                    AssertionCategory.DEFINITE_EXISTENCE, ent.text
+                    AssertionCategory.DEFINITE_EXISTENCE, ent.text, agent=doc_agent
                 )
                 ent._.cwyde_resolution_trace = [
                     {"step": "category_mapper", "result": AssertionCategory.DEFINITE_EXISTENCE, "reason": "no modifiers"}
@@ -71,7 +74,8 @@ class CategoryMapperComponent:
 
             ent._.cwyde_assertion_category = final
             ent._.cwyde_modal_formula = (
-                category_to_formula(final, ent.text) if final != AssertionCategory.UNRESOLVED else None
+                category_to_formula(final, ent.text, agent=doc_agent)
+                if final != AssertionCategory.UNRESOLVED else None
             )
             ent._.cwyde_resolution_trace = trace
 

@@ -154,7 +154,7 @@ class SectionPropagatorComponent:
 
                     if resolved != AssertionCategory.UNRESOLVED:
                         from cwyde.formal.translator import category_to_formula
-                        ent._.cwyde_modal_formula = category_to_formula(resolved, ent.text)
+                        ent._.cwyde_modal_formula = category_to_formula(resolved, ent.text, agent=ent._.cwyde_belief_agent)
 
                     ent._.cwyde_resolution_trace.append({
                         "step": "section_propagator",

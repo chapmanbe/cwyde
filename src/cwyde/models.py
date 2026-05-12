@@ -28,6 +28,7 @@ class CategoryDef(_StrictModel):
     category: AssertionCategory
     modal_reading: str
     modal_formula: str
+    agent_scope: str | None = None
     axis: Literal["existence", "temporality", "experiencer", "epistemic"]
     description: str
     overrides: list[AssertionCategory] = Field(default_factory=list)
