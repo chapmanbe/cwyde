@@ -1,4 +1,9 @@
-# Modal Semantics in cwyde
+# Modal Semantics in cwyde (v0.1 — historical reference)
+
+> **This document describes the v0.1 alethic encoding, retained for historical reference.**
+> The v0.2 encoding replaces alethic operators (□/◇) with doxastic belief operators (B_a).
+> See `docs/doxastic-semantics.md` for the current encoding and `docs/doxastic-foundations.md`
+> for the rationale.
 
 cwyde's assertion taxonomy is grounded in modal logic, using the [Boxes and Diamonds](https://bd.openlogicproject.org) (B&D) framework as the reference. Each `AssertionCategory` has a precise modal reading; findings that require formal reasoning are translated to `ModalFormula` trees and submitted to [gamen-hs](~/Code/Haskell/gamen-hs) for consistency checking.
 
