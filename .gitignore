@@ -6,3 +6,8 @@ dist/
 build/
 .pytest_cache/
 *.so
+
+# Evaluation data and local resources (may contain real clinical text)
+resources/
+*.sqlite
+*.db
