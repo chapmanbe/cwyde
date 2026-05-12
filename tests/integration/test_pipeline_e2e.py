@@ -274,3 +274,33 @@ class TestExtensions:
     def test_no_entity_doc_runs_cleanly(self, nlp):
         doc = nlp("The patient is doing well.")
         assert doc.ents == ()
+
+    def test_belief_agent_defaults_to_clinician(self, nlp):
+        doc = nlp("PE is present.")
+        assert doc.ents[0]._.cwyde_belief_agent == "clinician"
+
+    def test_doc_author_propagates_to_belief_agent(self, nlp):
+        doc = nlp("PE is present.")
+        doc._.cwyde_author = "radiologist"
+        # Re-run the pipeline from category_mapper onward to pick up the new author.
+        # Simplest: process a fresh doc with author set before pipeline runs.
+        doc2 = nlp.make_doc("PE is present.")
+        doc2._.cwyde_author = "radiologist"
+        doc2 = nlp(doc2)
+        assert doc2.ents[0]._.cwyde_belief_agent == "radiologist"
+
+    def test_doc_author_sets_formula_agent(self, nlp):
+        doc = nlp.make_doc("PE is present.")
+        doc._.cwyde_author = "radiologist"
+        doc = nlp(doc)
+        formula = doc.ents[0]._.cwyde_modal_formula
+        assert formula is not None
+        tree = formula.to_tree_json()
+        assert tree.get("agent") == "radiologist"
+
+    def test_doc_authored_at_survives_pipeline(self, nlp):
+        import datetime
+        doc = nlp.make_doc("PE is present.")
+        doc._.cwyde_authored_at = datetime.date(2026, 1, 15)
+        doc = nlp(doc)
+        assert doc._.cwyde_authored_at == datetime.date(2026, 1, 15)

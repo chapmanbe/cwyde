@@ -19,7 +19,7 @@ EN = DATA / "lang" / "en"
 
 def test_load_categories():
     result = load_categories(CORE / "categories.yaml")
-    assert result.schema_version == 1
+    assert result.schema_version == 3
     names = {c.category for c in result.categories}
     assert AssertionCategory.INDICATION in names
     assert AssertionCategory.DEFINITE_NEGATED_EXISTENCE in names

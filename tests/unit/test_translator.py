@@ -1,49 +1,95 @@
-"""Unit tests for the category → modal formula translator."""
+"""Unit tests for the category → modal formula translator (v0.3 ranked-belief encoding)."""
 
 import pytest
 from cwyde.categories import AssertionCategory
 from cwyde.formal.translator import category_to_formula
-from cwyde.formal.modal import Box, Diamond, And, Not, Past, Indication, Knowledge
+from cwyde.formal.modal import Atom, Past, Indication, Belief, RankedBelief
 
 
-@pytest.mark.parametrize("category,expected_type", [
-    (AssertionCategory.DEFINITE_EXISTENCE, Box),
-    (AssertionCategory.PROBABLE_EXISTENCE, Diamond),
-    (AssertionCategory.PROBABLE_NEGATED_EXISTENCE, Diamond),
-    (AssertionCategory.DEFINITE_NEGATED_EXISTENCE, Box),
-    (AssertionCategory.HISTORICAL, Past),
-    (AssertionCategory.INDICATION, Indication),
-    (AssertionCategory.FAMILY, Knowledge),
+# ---------------------------------------------------------------------------
+# Existence-axis categories → RankedBelief with signed rank
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("category,expected_rank", [
+    (AssertionCategory.DEFINITE_EXISTENCE,         2),
+    (AssertionCategory.PROBABLE_EXISTENCE,         1),
+    (AssertionCategory.AMBIVALENT_EXISTENCE,       0),
+    (AssertionCategory.PROBABLE_NEGATED_EXISTENCE, -1),
+    (AssertionCategory.DEFINITE_NEGATED_EXISTENCE, -2),
 ])
-def test_formula_types(category, expected_type):
+def test_existence_axis_is_ranked_belief(category, expected_rank):
     formula = category_to_formula(category, "x")
-    assert isinstance(formula, expected_type), f"{category} should produce {expected_type.__name__}"
+    assert isinstance(formula, RankedBelief)
+    assert formula.agent == "clinician"
+    assert formula.rank == expected_rank
+    assert isinstance(formula.operand, Atom)
+    assert formula.operand.name == "x"
 
 
-def test_ambivalent_is_and():
+def test_ambivalent_rank_zero_is_neutrality():
+    # τ=0 encodes genuine neutrality — not 50/50, but neither X nor ¬X is disbelieved.
     formula = category_to_formula(AssertionCategory.AMBIVALENT_EXISTENCE, "x")
-    assert isinstance(formula, And)
+    assert formula.rank == 0
 
 
-def test_definite_negated_wraps_not():
-    formula = category_to_formula(AssertionCategory.DEFINITE_NEGATED_EXISTENCE, "x")
-    assert isinstance(formula, Box)
-    assert isinstance(formula.operand, Not)
+# ---------------------------------------------------------------------------
+# Non-existence-axis categories stay as Belief
+# ---------------------------------------------------------------------------
+
+def test_historical_is_belief_of_past():
+    formula = category_to_formula(AssertionCategory.HISTORICAL, "x")
+    assert isinstance(formula, Belief)
+    assert isinstance(formula.operand, Past)
 
 
-def test_probable_negated_wraps_not():
-    formula = category_to_formula(AssertionCategory.PROBABLE_NEGATED_EXISTENCE, "x")
-    assert isinstance(formula, Diamond)
-    assert isinstance(formula.operand, Not)
+def test_hypothetical_is_belief():
+    formula = category_to_formula(AssertionCategory.HYPOTHETICAL, "x")
+    assert isinstance(formula, Belief)
+    assert formula.agent == "clinician"
 
+
+def test_family_uses_sortal_atom():
+    formula = category_to_formula(AssertionCategory.FAMILY, "diabetes")
+    assert isinstance(formula, Belief)
+    assert isinstance(formula.operand, Atom)
+    assert formula.operand.name == "diabetes_family"
+
+
+def test_indication_is_indication():
+    formula = category_to_formula(AssertionCategory.INDICATION, "x")
+    assert isinstance(formula, Indication)
+
+
+# ---------------------------------------------------------------------------
+# Agent kwarg propagation
+# ---------------------------------------------------------------------------
+
+def test_agent_kwarg_propagates_to_ranked_belief():
+    formula = category_to_formula(AssertionCategory.DEFINITE_EXISTENCE, "x", agent="radiologist")
+    assert isinstance(formula, RankedBelief)
+    assert formula.agent == "radiologist"
+
+
+def test_agent_kwarg_propagates_to_belief():
+    formula = category_to_formula(AssertionCategory.HYPOTHETICAL, "x", agent="radiologist")
+    assert isinstance(formula, Belief)
+    assert formula.agent == "radiologist"
+
+
+# ---------------------------------------------------------------------------
+# Error handling
+# ---------------------------------------------------------------------------
 
 def test_unresolved_raises():
     with pytest.raises(ValueError, match="UNRESOLVED"):
         category_to_formula(AssertionCategory.UNRESOLVED, "x")
 
 
+# ---------------------------------------------------------------------------
+# Round-trip: every resolvable category produces valid tree JSON
+# ---------------------------------------------------------------------------
+
 def test_all_resolvable_categories_round_trip():
-    """Every category except UNRESOLVED produces valid tree JSON."""
     for cat in AssertionCategory:
         if cat == AssertionCategory.UNRESOLVED:
             continue
