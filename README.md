@@ -102,12 +102,14 @@ This is a **Haskell** binary — Python-only environments work fine without it
 
 **Requires** GHC ≥ 9.6, installed via [ghcup](https://www.haskell.org/ghcup/).
 
-ghcup installs `cabal` and `ghc` into `~/.ghcup/bin`, which is not on `PATH`
-by default in new terminals. Source the ghcup environment file first:
+ghcup installs `cabal` and `ghc` into `~/.ghcup/bin`, which is not always
+on `PATH` by default. Add it explicitly:
 
 ```bash
-source ~/.ghcup/env          # one-off, or add to ~/.zshrc / ~/.bashrc
-which cabal                  # should resolve after sourcing
+export PATH="$HOME/.ghcup/bin:$PATH"   # one-off
+# or to make it permanent:
+echo 'export PATH="$HOME/.ghcup/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+which cabal   # should resolve
 ```
 
 ```bash
