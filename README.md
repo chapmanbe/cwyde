@@ -113,12 +113,12 @@ which cabal   # should resolve
 ```
 
 ```bash
-# Build gamen-validate
+# Clone and build — all cabal commands must run from the gamen-hs directory
 git clone https://github.com/chapmanbe/gamen-hs.git
 cd gamen-hs
 cabal build gamen-validate
 
-# Point cwyde at the binary (add to your shell profile)
+# Capture the binary path (still inside gamen-hs/)
 export CWYDE_GAMEN_BIN=$(cabal list-bin gamen-validate)
 ```
 
