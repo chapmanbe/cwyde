@@ -1,0 +1,17 @@
+name: cwyde
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.13
+  - pip
+  - jupyter
+  - notebook
+  - ipykernel
+  - nbconvert
+  - pip:
+      - medspacy>=1.2.0
+      - pydantic>=2.0
+      - pyyaml>=6.0
+      - pytest>=8.0
+      - pytest-cov>=5.0

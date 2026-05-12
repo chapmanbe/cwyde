@@ -17,15 +17,17 @@ medspaCy's ConText component identifies clinical context modifiers (negation, un
 
 Clinical context modifier categories are **modal operators**. Their interaction rules are logical entailments, not empirical patterns:
 
-| Category | Modal reading |
+| Category | Modal reading (v0.3 Spohn OCF) |
 |---|---|
-| `DEFINITE_NEGATED_EXISTENCE` | □¬X — necessarily absent |
-| `PROBABLE_NEGATED_EXISTENCE` | ◇¬X — possibly absent |
-| `AMBIVALENT_EXISTENCE` | ◇X ∧ ◇¬X — indeterminate |
-| `PROBABLE_EXISTENCE` | ◇X — possibly present |
-| `DEFINITE_EXISTENCE` | □X — necessarily present |
-| `HISTORICAL` | P(X) — was the case |
-| `INDICATION` | ?(X) — under investigation; neither asserted nor denied |
+| `DEFINITE_EXISTENCE` | τ_clinician(X) = +2 — firmly believed present |
+| `PROBABLE_EXISTENCE` | τ_clinician(X) = +1 — probably believed present |
+| `AMBIVALENT_EXISTENCE` | τ_clinician(X) = 0 — genuinely neutral |
+| `PROBABLE_NEGATED_EXISTENCE` | τ_clinician(X) = −1 — probably believed absent |
+| `DEFINITE_NEGATED_EXISTENCE` | τ_clinician(X) = −2 — firmly believed absent |
+| `HISTORICAL` | B_clinician(P(X)) — believed to have been the case |
+| `HYPOTHETICAL` | B_clinician(X) — believed in conditional context |
+| `FAMILY` | B_clinician(X_family) — applies to family member |
+| `INDICATION` | ¬K_clinician(X) ∧ ¬K_clinician(¬X) — under investigation |
 
 cwyde provides a YAML-driven interaction rules interpreter for pure-Python use and integrates with [gamen-hs](https://github.com/chapmanbe/gamen-hs) for formal modal consistency checking when available.
 
@@ -68,12 +70,56 @@ for ent in doc.ents:
 
 ## Installation
 
-```bash
-# Engine + knowledge bases
-pip install cwyde cwyde-knowledge
+### Development install (recommended for notebooks and research)
 
-# With optional gamen-hs bridge
-pip install cwyde cwyde-knowledge cwyde-haskell-bridge
+**Requires** conda or mamba ([Miniforge](https://github.com/conda-forge/miniforge) recommended).
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/chapmanbe/cwyde.git
+cd cwyde
+
+# 2. Create and activate the conda environment
+conda env create -f environment.yml
+conda activate cwyde
+
+# 3. Install the three cwyde packages in editable mode
+pip install -e packages/cwyde-knowledge
+pip install -e packages/cwyde-haskell-bridge
+pip install -e .
+```
+
+This installs medspaCy and all Python dependencies. The example notebooks
+(`examples/01_basic_assertion.ipynb` through `04_section_propagation.ipynb`)
+are fully functional at this point.
+
+### Optional: gamen-validate (formal consistency checking)
+
+Notebook 05 and the `cwyde_consistency_checker` pipeline component require
+the `gamen-validate` binary from [gamen-hs](https://github.com/chapmanbe/gamen-hs).
+This is a **Haskell** binary — Python-only environments work fine without it
+(the pipeline falls back to the YAML precedence table).
+
+**Requires** GHC ≥ 9.6, installed via [ghcup](https://www.haskell.org/ghcup/).
+
+```bash
+# Build gamen-validate
+git clone https://github.com/chapmanbe/gamen-hs.git
+cd gamen-hs
+cabal build gamen-validate
+
+# Point cwyde at the binary (add to your shell profile)
+export CWYDE_GAMEN_BIN=$(cabal list-bin gamen-validate)
+```
+
+`find_gamen_validate()` also checks `GAMEN_VALIDATE_BIN` (compatibility with
+`guideline-validation`) and common build output paths before giving up.
+
+### PyPI install (library use, no notebooks)
+
+```bash
+pip install cwyde cwyde-knowledge            # core
+pip install cwyde cwyde-knowledge cwyde-haskell-bridge  # with bridge
 ```
 
 ## Packages
