@@ -80,12 +80,16 @@ def test_consistency_inconsistent_pair(gamen_available):
 
 
 def test_consistency_consistent_pair(gamen_available):
-    """□X ∧ ◇X is consistent (necessity implies possibility)."""
+    """Beliefs about distinct atoms are jointly satisfiable (OCF v0.3).
+
+    RankedBelief(a, n, X) and RankedBelief(a, m, X) with n≠m violate the
+    functionality rule (τ is a function). Using different atoms avoids that.
+    """
     from cwyde_haskell_bridge import GamenBridge
     bridge = GamenBridge()
     formulas = [
         category_to_formula(AssertionCategory.DEFINITE_EXISTENCE, "pe"),
-        category_to_formula(AssertionCategory.PROBABLE_EXISTENCE, "pe"),
+        category_to_formula(AssertionCategory.PROBABLE_EXISTENCE, "dvt"),
     ]
     result = bridge.check_consistency(formulas)
     assert result.ok
@@ -140,9 +144,9 @@ def test_gamen_strategy_check_consistency_consistent(gamen_available):
     strategy = GamenStrategy()
     formulas = [
         category_to_formula(AssertionCategory.PROBABLE_EXISTENCE, "hypertension"),
-        category_to_formula(AssertionCategory.DEFINITE_EXISTENCE, "hypertension"),
+        category_to_formula(AssertionCategory.DEFINITE_EXISTENCE, "dvt"),
     ]
-    # ◇X ∧ □X — consistent (necessity implies possibility)
+    # Different atoms — jointly satisfiable under OCF functionality rule.
     result = strategy.check_consistency(formulas)
     assert result.consistent is True
 
