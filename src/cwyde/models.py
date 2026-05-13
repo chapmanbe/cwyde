@@ -6,10 +6,37 @@ Every model uses extra="forbid" on top-level types so unknown keys fail loudly.
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from typing import Any, Literal
 from pydantic import BaseModel, Field
 
 from cwyde.categories import AssertionCategory
+
+
+# ---------------------------------------------------------------------------
+# Document-level classification (Issue #8)
+# ---------------------------------------------------------------------------
+
+@dataclass
+class EntityEvidence:
+    """Evidence for a single entity contributing to a document classification."""
+    mention: str
+    category: AssertionCategory
+    tau: int | None  # None for non-existence categories (HISTORICAL, FAMILY, etc.)
+
+
+@dataclass
+class DocumentClassification:
+    """Document-level aggregated assertion for a target type.
+
+    Uses Spohn's combineIndependent (Σ τᵢ) by default, clamped to [-2, +2].
+    """
+    target_type: str
+    tau_combined: int           # Σ τᵢ clamped to [-2, +2]
+    assertion: AssertionCategory  # category corresponding to tau_combined
+    acuity: str                 # "acute" | "historical" | "hypothetical" | "unknown"
+    evidence: list[EntityEvidence] = field(default_factory=list)
+    confidence: float = 1.0    # fraction of entities with resolved categories
 
 
 # ---------------------------------------------------------------------------

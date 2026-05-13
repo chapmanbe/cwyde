@@ -1,0 +1,135 @@
+schema_version: 1
+
+# Pseudo-trigger terms (Harkema et al. 2009, ConText paper p.6 step 2a).
+#
+# These phrases contain trigger words ("no", "history", "if", etc.) but must NOT
+# act as contextual modifiers. Loaded as TERMINATE rules so that medspaCy's
+# longest-match pruning eliminates the shorter trigger whenever one of these
+# multi-token phrases is present.
+#
+# category: DEFINITE_EXISTENCE is a dummy — irrelevant for TERMINATE rules.
+# source: ConText paper unless noted.
+
+entries:
+
+  # ── Negation pseudo-triggers (suppress "no", "without", "absent") ──────────
+
+  - lex: "no increase"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "Harkema et al. 2009"
+    notes: '"no change in X" does not mean X is absent; it means X has not worsened'
+
+  - lex: "no change"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "Harkema et al. 2009"
+    notes: "comparison phrase indicating stability, not absence"
+
+  - lex: "no significant change"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "radiology convention"
+    notes: "radiology: finding is stable, not absent"
+
+  - lex: "no interval change"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "radiology convention"
+    notes: "common radiology comparison phrase; finding persists unchanged"
+
+  - lex: "no acute change"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "radiology convention"
+    notes: "finding present but without acute progression"
+
+  - lex: "no new"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "radiology convention"
+    notes: '"no new findings" means existing findings persist, not that they are absent'
+
+  - lex: "not cause"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "Harkema et al. 2009"
+    notes: "from ConText paper; causal attribution phrase, not negation"
+
+  - lex: "no longer"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "Harkema et al. 2009"
+    notes: "temporal modifier describing resolution, not current absence"
+
+  # ── Historical pseudo-triggers (suppress "history", "status post", "s/p") ──
+
+  - lex: "history and physical"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical documentation convention"
+    notes: "H&P section header; 'history' here is not a temporality modifier"
+
+  - lex: "history of present illness"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical documentation convention"
+    notes: "HPI section header; content describes current presentation"
+
+  - lex: "social history"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical documentation convention"
+    notes: "section header; social history items (smoking, alcohol) may be current habits"
+
+  - lex: "poor history"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "describes documentation quality, not that a condition is historical"
+
+  - lex: "no history of"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "compound negation ('no' + 'history of'); treated as negation, not historical"
+
+  # ── Hypothetical pseudo-triggers (suppress "if", "should", "when") ─────────
+
+  - lex: "if negative"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "qualifies a test result; not a hypothetical condition"
+
+  - lex: "know if"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "question structure ('I don't know if ...'); not a hypothetical scenario"
+
+  - lex: "as if"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "comparison ('looks as if'); not a hypothetical clinical condition"
+
+  # ── Family / attribution pseudo-triggers ────────────────────────────────────
+
+  - lex: "by her husband"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "attribution phrase; patient remains the experiencer"
+
+  - lex: "by his brother"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "attribution phrase; patient remains the experiencer"
+
+  - lex: "by the patient"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "clinical NLP convention"
+    notes: "patient is always the subject; 'by' alone should not flip experiencer"

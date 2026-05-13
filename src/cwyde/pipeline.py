@@ -79,8 +79,6 @@ def _load_lexicons_into_context(nlp, lang: str) -> None:
             try:
                 lexicon = load_lexicon(lex_path)
                 for entry in lexicon.entries:
-                    if entry.direction == "terminate":
-                        continue
                     rule = ConTextRule(
                         literal=entry.lex,
                         category=entry.category.value,
