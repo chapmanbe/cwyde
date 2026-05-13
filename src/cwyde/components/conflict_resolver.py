@@ -60,8 +60,9 @@ class ConflictResolverComponent:
             result = self._strategy.resolve_conflict(categories)
             ent._.cwyde_assertion_category = result
             if result != AssertionCategory.UNRESOLVED:
+                from cwyde.formal.canonical import canonicalise_atom
                 from cwyde.formal.translator import category_to_formula
-                ent._.cwyde_modal_formula = category_to_formula(result, ent.text, agent=ent._.cwyde_belief_agent)
+                ent._.cwyde_modal_formula = category_to_formula(result, canonicalise_atom(ent), agent=ent._.cwyde_belief_agent)
             ent._.cwyde_resolution_trace.append(
                 {"step": "conflict_resolver", "input": [c.value for c in categories], "result": result.value}
             )

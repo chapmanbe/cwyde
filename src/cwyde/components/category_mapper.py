@@ -14,6 +14,7 @@ from spacy.language import Language
 from spacy.tokens import Doc
 
 from cwyde.categories import AssertionCategory
+from cwyde.formal.canonical import canonicalise_atom
 from cwyde.formal.translator import category_to_formula
 
 logger = logging.getLogger(__name__)
@@ -49,7 +50,7 @@ class CategoryMapperComponent:
             if not modifiers:
                 ent._.cwyde_assertion_category = AssertionCategory.DEFINITE_EXISTENCE
                 ent._.cwyde_modal_formula = category_to_formula(
-                    AssertionCategory.DEFINITE_EXISTENCE, ent.text, agent=doc_agent
+                    AssertionCategory.DEFINITE_EXISTENCE, canonicalise_atom(ent), agent=doc_agent
                 )
                 ent._.cwyde_resolution_trace = [
                     {"step": "category_mapper", "result": AssertionCategory.DEFINITE_EXISTENCE, "reason": "no modifiers"}
@@ -74,7 +75,7 @@ class CategoryMapperComponent:
 
             ent._.cwyde_assertion_category = final
             ent._.cwyde_modal_formula = (
-                category_to_formula(final, ent.text, agent=doc_agent)
+                category_to_formula(final, canonicalise_atom(ent), agent=doc_agent)
                 if final != AssertionCategory.UNRESOLVED else None
             )
             ent._.cwyde_resolution_trace = trace
