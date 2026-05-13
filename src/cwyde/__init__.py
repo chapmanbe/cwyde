@@ -78,7 +78,9 @@ def classify_document(
     else:
         ents = list(doc.ents)
 
-    # No matching entities → default ambivalent, unknown acuity
+    # No matching entities → default ambivalent, unknown acuity.
+    # joint_consistent stays None: with no target entities there is nothing to be
+    # consistent about, and the checker's verdict on other entities is irrelevant.
     if not ents:
         return DocumentClassification(
             target_type=target_type or "",
@@ -123,6 +125,8 @@ def classify_document(
 
     assertion = _TAU_TO_CATEGORY[tau_combined]
 
+    joint_consistent, relevant_inconsistencies = _read_joint_consistency(doc, ents)
+
     return DocumentClassification(
         target_type=target_type or "",
         tau_combined=tau_combined,
@@ -130,7 +134,32 @@ def classify_document(
         acuity=acuity,
         evidence=evidence,
         confidence=confidence,
+        joint_consistent=joint_consistent,
+        inconsistencies=relevant_inconsistencies,
     )
+
+
+def _read_joint_consistency(doc, target_ents) -> "tuple[bool | None, list]":
+    """Surface joint inconsistencies that implicate any target entity.
+
+    Returns (joint_consistent, relevant_inconsistencies):
+      - None / []   when doc._.cwyde_inconsistencies is None (checker did not run)
+      - True / []   when no inconsistency implicates a target entity
+      - False / [i] when at least one inconsistency implicates a target entity
+
+    Inconsistencies are matched to target entities by token-start position, which
+    is what consistency_checker records in Inconsistency.entities.
+    """
+    raw = getattr(getattr(doc, "_", None), "cwyde_inconsistencies", None)
+    if raw is None:
+        return None, []
+
+    target_starts = {ent.start for ent in target_ents}
+    relevant = [
+        inc for inc in raw
+        if any(start in target_starts for _text, start, _end in getattr(inc, "entities", []))
+    ]
+    return (len(relevant) == 0), relevant
 
 
 def load(lang: str = "en"):

@@ -203,3 +203,120 @@ class TestClassifyDocumentEvidence:
         ])
         result = classify_document(doc, "CONDITION")
         assert result.acuity == "historical"
+
+
+# ---------------------------------------------------------------------------
+# Joint consistency surfacing — reads doc._.cwyde_inconsistencies and filters
+# to records implicating at least one target entity (Issue #1 + classify_document).
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class _MockExtWithPosition(_MockExt):
+    pass
+
+
+@dataclass
+class _MockEntWithPosition:
+    """Mock entity with start/end tokens so joint-consistency matching works."""
+    text: str
+    label_: str
+    start: int
+    end: int
+    _: _MockExtWithPosition
+
+
+@dataclass
+class _MockInc:
+    """Stand-in for components.consistency_checker.Inconsistency."""
+    scope: str
+    scope_id: str
+    entities: list  # list of (text, start, end)
+    explanation: str = ""
+
+
+class _MockDocWithInconsistencies:
+    """spaCy-Doc-like with both .ents and ._.cwyde_inconsistencies."""
+
+    class _Ext:
+        def __init__(self, inconsistencies):
+            self.cwyde_inconsistencies = inconsistencies
+
+    def __init__(self, ents, inconsistencies):
+        self.ents = ents
+        self._ = self._Ext(inconsistencies)
+
+
+def _make_ent_pos(text, category, start, label="CONDITION"):
+    return _MockEntWithPosition(
+        text=text, label_=label, start=start, end=start + 1,
+        _=_MockExtWithPosition(cwyde_assertion_category=category),
+    )
+
+
+class TestClassifyDocumentJointConsistency:
+    def test_no_inconsistencies_attribute_yields_none(self):
+        """Mock without cwyde_inconsistencies → joint_consistent is None (checker didn't run)."""
+        doc = _MockDoc([_make_ent("PE", AssertionCategory.DEFINITE_EXISTENCE)])
+        result = classify_document(doc, "CONDITION")
+        assert result.joint_consistent is None
+        assert result.inconsistencies == []
+
+    def test_empty_inconsistencies_list_yields_true(self):
+        """cwyde_inconsistencies = [] → checker ran and found nothing → True."""
+        doc = _MockDocWithInconsistencies(
+            ents=[_make_ent_pos("PE", AssertionCategory.DEFINITE_EXISTENCE, start=3)],
+            inconsistencies=[],
+        )
+        result = classify_document(doc, "CONDITION")
+        assert result.joint_consistent is True
+        assert result.inconsistencies == []
+
+    def test_inconsistency_involving_target_entity_yields_false(self):
+        """An inconsistency record implicating a target entity → joint_consistent=False
+        and the relevant record appears in result.inconsistencies."""
+        ent = _make_ent_pos("PE", AssertionCategory.DEFINITE_EXISTENCE, start=3)
+        inc = _MockInc(
+            scope="section", scope_id="findings",
+            entities=[("PE", 3, 4), ("no PE", 7, 8)],
+            explanation="contradiction",
+        )
+        doc = _MockDocWithInconsistencies(ents=[ent], inconsistencies=[inc])
+        result = classify_document(doc, "CONDITION")
+        assert result.joint_consistent is False
+        assert result.inconsistencies == [inc]
+
+    def test_inconsistency_not_involving_target_entity_yields_true(self):
+        """An inconsistency involving only non-target entities should not flip joint_consistent.
+        Filtering is by token start position, not by entity text."""
+        ent = _make_ent_pos("PE", AssertionCategory.DEFINITE_EXISTENCE, start=3)
+        # Inconsistency entities at start positions 20, 25 — neither matches our target ent at 3.
+        inc = _MockInc(
+            scope="section", scope_id="impression",
+            entities=[("fever", 20, 21), ("no fever", 25, 26)],
+            explanation="other-entity contradiction",
+        )
+        doc = _MockDocWithInconsistencies(ents=[ent], inconsistencies=[inc])
+        result = classify_document(doc, "CONDITION")
+        assert result.joint_consistent is True
+        assert result.inconsistencies == []
+
+    def test_target_type_filter_scopes_relevance(self):
+        """When target_type filters out an entity, an inconsistency involving only
+        the filtered-out entities is no longer 'relevant' to this classification."""
+        ent_pe = _make_ent_pos("PE", AssertionCategory.DEFINITE_EXISTENCE, start=3, label="CONDITION")
+        ent_dvt = _make_ent_pos("DVT", AssertionCategory.DEFINITE_NEGATED_EXISTENCE, start=10, label="OTHER")
+        inc = _MockInc(
+            scope="section", scope_id="findings",
+            entities=[("DVT", 10, 11), ("no DVT", 15, 16)],
+            explanation="DVT contradiction",
+        )
+        doc = _MockDocWithInconsistencies(ents=[ent_pe, ent_dvt], inconsistencies=[inc])
+        # Classifying CONDITION (PE only) — the DVT inconsistency is not relevant.
+        result = classify_document(doc, "CONDITION")
+        assert result.joint_consistent is True
+        assert result.inconsistencies == []
+        # Classifying OTHER (DVT only) — the DVT inconsistency IS relevant.
+        result_dvt = classify_document(doc, "OTHER")
+        assert result_dvt.joint_consistent is False
+        assert result_dvt.inconsistencies == [inc]

@@ -37,6 +37,15 @@ class DocumentClassification:
     acuity: str                 # "acute" | "historical" | "hypothetical" | "unknown"
     evidence: list[EntityEvidence] = field(default_factory=list)
     confidence: float = 1.0    # fraction of entities with resolved categories
+    # joint_consistent: True / False / None.
+    #   True  — joint consistency check ran and no inconsistency implicates any target entity.
+    #   False — at least one inconsistency implicates a target entity.
+    #   None  — the consistency checker did not run (gamen unavailable, skip_if_unavailable=True).
+    joint_consistent: bool | None = None
+    # Target-relevant inconsistency records from doc._.cwyde_inconsistencies, filtered to
+    # those implicating at least one of this classification's target entities. Untyped to
+    # avoid a circular import with cwyde.components.consistency_checker.
+    inconsistencies: list = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
