@@ -6,12 +6,12 @@ cwyde (Old English: *utterance, assertion*) is a Python package that adds princi
 
 ## The problem
 
-medspaCy's ConText component identifies clinical context modifiers (negation, uncertainty, temporality, experiencer) but:
+medspaCy's ConText component is a capable modifier-matching engine. By default, however, it leaves several clinically important problems unsolved:
 
-1. **Collapses the taxonomy**: rich pyConTextNLP categories like `PROBABLE_EXISTENCE` vs `DEFINITE_EXISTENCE` are flattened to a single `is_negated` boolean.
-2. **Omits INDICATION**: "rule out PE" is not a negated finding — it means the clinician is investigating whether PE is present. Treating it as negation is a category error.
-3. **No conflict resolution**: when multiple modifiers co-occur, they accumulate as an unresolved list. Downstream code must decide what to do.
-4. **No document-level propagation**: section headers like "Past Medical History" should propagate a HISTORICAL assertion to all findings in the section, but medspaCy's ConText is sentence-scoped only.
+1. **Taxonomy collapsed by default**: ConText exposes rich modifier categories (e.g. `POSSIBLE_EXISTENCE`, `NEGATED_EXISTENCE`) via `Span._.modifiers`, but the standard entity attributes flatten these to booleans (`is_negated`, `is_uncertain`). The distinction between *probable* and *definite* absence — clinically meaningful — is lost.
+2. **No INDICATION category**: medspaCy classifies "rule out PE" as either negation or uncertainty depending on surrounding cues. This is a reasonable approximation but misses the semantic point: the clinician has committed to *neither* PE nor its absence and is actively investigating. cwyde adds `INDICATION` as a first-class category (¬K∧¬K¬) to model this correctly.
+3. **No cross-modifier synthesis**: when multiple modifiers apply to the same entity (e.g. both `HISTORICAL` and `UNCERTAIN`), ConText correctly attaches both but does not synthesise them into a single assertion. Downstream code receives an unresolved list and must decide what to do.
+4. **ConText is sentence-scoped by default**: medspaCy's sectionizer can propagate section-level attributes (e.g. marking all entities in a "Past Medical History" section as historical), but this requires explicit wiring between the two components. ConText alone does not cross sentence boundaries.
 
 ## The approach
 

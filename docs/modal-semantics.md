@@ -37,7 +37,7 @@ The existence axis is not symmetric. `PROBABLE_NEGATED_EXISTENCE` (◇¬X) is a 
 
 ### INDICATION as a first-class category
 
-pyConTextNLP and medspaCy have no equivalent of `INDICATION`. cwyde adds it to model sentences like "rule out PE" or "evaluated for DVT," where the clinician is investigating X but has committed to neither X nor ¬X. The formula ¬K_a(X) ∧ ¬K_a(¬X) (from B&D's epistemic logic) captures this: it asserts ignorance of both X and its negation.
+pyConTextNLP has no equivalent of `INDICATION`, and medspaCy's default ConText rules do not define it as a named category. medspaCy maps "rule out" to negation or uncertainty depending on surrounding cues, which is a reasonable approximation but conflates two distinct epistemic states. cwyde adds `INDICATION` to model sentences like "rule out PE" or "evaluated for DVT," where the clinician is investigating X but has committed to neither X nor ¬X. The formula ¬K_a(X) ∧ ¬K_a(¬X) (from B&D's epistemic logic) captures this: it asserts ignorance of both X and its negation.
 
 In `to_tree_json()`, `Indication` expands to a standard And/Not/Knowledge tree so gamen-hs receives only constructors it already knows:
 

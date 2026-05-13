@@ -61,7 +61,7 @@ Ten categories with doxastic readings (v0.2). Each category encodes the clinicia
 
 `DEFINITE_EXISTENCE` and `PROBABLE_EXISTENCE` produce the same formula; the grade is preserved in the category name. A v0.3 graded-belief encoding (Spohn ranking theory) will differentiate them at the formula level.
 
-`INDICATION` is a first-class category (not present in pyConTextNLP or medspaCy) encoding that the clinician is actively investigating whether X is present — they have neither asserted nor denied it. This is the one category that v0.1 already encoded correctly.
+`INDICATION` is a first-class category (not present in pyConTextNLP, and not present as a named category in medspaCy's default ConText rules) encoding that the clinician is actively investigating whether X is present — they have neither asserted nor denied it. medspaCy's default rules map "rule out" to negation or uncertainty depending on context; cwyde treats it as a distinct epistemic state (¬K∧¬K¬).
 
 `UNRESOLVED` is an explicit non-answer assigned when co-occurring modifiers cannot be resolved by the YAML rules and gamen-validate is unavailable.
 
