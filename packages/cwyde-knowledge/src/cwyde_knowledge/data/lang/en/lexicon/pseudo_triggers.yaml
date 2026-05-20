@@ -12,6 +12,23 @@ schema_version: 1
 
 entries:
 
+  # ── Radiology negation suppressors ─────────────────────────────────────────
+  # "LUNGS ARE CLEAR" contains bidirectional "clear" which medspaCy's ConText
+  # can propagate 15+ tokens backward (via PyRuSH sentence merging), reaching
+  # a PE mention earlier in the impression. TERMINATE suppresses "clear" here.
+
+  - lex: "lungs are clear"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "radiology convention"
+    notes: "bidirectional 'clear' reaches adjacent PE mentions via sentence merge; TERMINATE suppresses it"
+
+  - lex: "lungs are otherwise clear"
+    direction: terminate
+    category: DEFINITE_EXISTENCE
+    source: "radiology convention"
+    notes: "variant of 'lungs are clear'; same suppression needed"
+
   # ── Negation pseudo-triggers (suppress "no", "without", "absent") ──────────
 
   - lex: "no increase"

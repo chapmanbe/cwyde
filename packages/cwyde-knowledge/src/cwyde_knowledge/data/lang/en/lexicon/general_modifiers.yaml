@@ -97,9 +97,30 @@ entries:
     source: general
 
   - lex: cannot be excluded
-    direction: forward
+    direction: backward
     category: AMBIVALENT_EXISTENCE
-    source: general
+    source: cwyde
+    notes: 'Passive voice: entity precedes phrase ("PE cannot be excluded"). Direction fix: backward, not forward.'
+
+  # "is/was/are not excluded" — stronger claim than "cannot be excluded":
+  # the study found the entity plausible but unconfirmed → PROBABLE_NEGATED (entity present-leaning).
+  - lex: is not excluded
+    direction: backward
+    category: PROBABLE_NEGATED_EXISTENCE
+    source: cwyde
+    notes: 'Passive; entity before phrase. More assertive than "cannot be excluded" (AMBIVALENT).'
+
+  - lex: was not excluded
+    direction: backward
+    category: PROBABLE_NEGATED_EXISTENCE
+    source: cwyde
+    notes: 'Past-tense passive variant of "is not excluded".'
+
+  - lex: are not excluded
+    direction: backward
+    category: PROBABLE_NEGATED_EXISTENCE
+    source: cwyde
+    notes: 'Plural passive variant ("PE are not excluded").'
 
   - lex: equivocal
     direction: bidirectional
