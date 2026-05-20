@@ -182,6 +182,21 @@ class LexiconFile(_StrictModel):
 
 
 # ---------------------------------------------------------------------------
+# section_rules.yaml (lang/*/section_rules.yaml)
+# ---------------------------------------------------------------------------
+
+class SectionRuleEntry(_StrictModel):
+    literal: str
+    category: str
+    override: bool = False
+
+
+class SectionRuleFile(_StrictModel):
+    schema_version: int
+    entries: list[SectionRuleEntry]
+
+
+# ---------------------------------------------------------------------------
 # indication_patterns.yaml / backfill_patterns.yaml
 # ---------------------------------------------------------------------------
 
