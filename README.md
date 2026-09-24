@@ -24,7 +24,7 @@ Clinical context modifier categories are **modal operators**. Their interaction 
 | `AMBIVALENT_EXISTENCE` | τ_clinician(X) = 0 — genuinely neutral |
 | `PROBABLE_NEGATED_EXISTENCE` | τ_clinician(X) = −1 — probably believed absent |
 | `DEFINITE_NEGATED_EXISTENCE` | τ_clinician(X) = −2 — firmly believed absent |
-| `HISTORICAL` | B_clinician(P(X)) — believed to have been the case |
+| `HISTORICAL` | B_clinician(X_history) — believed to have been the case |
 | `HYPOTHETICAL` | B_clinician(X) — believed in conditional context |
 | `FAMILY` | B_clinician(X_family) — applies to family member |
 | `INDICATION` | ¬K_clinician(X) ∧ ¬K_clinician(¬X) — under investigation |

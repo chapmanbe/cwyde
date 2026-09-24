@@ -13,8 +13,15 @@ Spohn (1988) signed-int OCF semantics. Grade is encoded in the rank integer:
 The threshold N=2 separating DEFINITE from PROBABLE is a cwyde policy choice;
 gamen-hs is agnostic about it.
 
-HISTORICAL wraps the atom in Past inside Belief: B_a(P(X)).
+HISTORICAL uses sortal atomisation: B_a(X_history).
 FAMILY uses sortal atomisation: B_a(X_family).
+
+HISTORICAL used to be B_a(P(X)), with P the past-diamond operator. gamen-hs
+quarantines all temporal tableau operators (gamen-hs#25), so gamen-validate
+rejects past_diamond in a consistency check. Before the quarantine, P(X) was
+never decomposed, so a joint check containing it passed without any reasoning
+about the past. The sortal atom keeps the distinction cwyde needs (a past
+finding does not clash with a current negation) without temporal reasoning.
 HYPOTHETICAL and INDICATION are unchanged from v0.2.
 """
 
@@ -22,7 +29,7 @@ from __future__ import annotations
 
 from cwyde.categories import AssertionCategory
 from cwyde.formal.modal import (
-    Atom, Past, Indication, Belief, RankedBelief, ModalFormula
+    Atom, Indication, Belief, RankedBelief, ModalFormula
 )
 
 
@@ -42,8 +49,9 @@ def category_to_formula(category: AssertionCategory, atom: str, *, agent: str = 
         case AssertionCategory.DEFINITE_NEGATED_EXISTENCE:
             return RankedBelief(agent, -2, x)
         case AssertionCategory.HISTORICAL:
-            # Clinician believes X was the case at some past time.
-            return Belief(agent, Past(x))
+            # Sortal restriction: clinician believes X was the case in the past.
+            # Not Past(x): gamen-hs quarantines temporal operators (gamen-hs#25).
+            return Belief(agent, Atom(f"{atom}_history"))
         case AssertionCategory.HYPOTHETICAL:
             # Belief in X scoped to a conditional/hypothetical context; category marks conditionality.
             return Belief(agent, x)

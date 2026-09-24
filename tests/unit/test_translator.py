@@ -36,10 +36,10 @@ def test_ambivalent_rank_zero_is_neutrality():
 # Non-existence-axis categories stay as Belief
 # ---------------------------------------------------------------------------
 
-def test_historical_is_belief_of_past():
+def test_historical_is_belief_of_sortal_atom():
     formula = category_to_formula(AssertionCategory.HISTORICAL, "x")
     assert isinstance(formula, Belief)
-    assert isinstance(formula.operand, Past)
+    assert formula.operand == Atom("x_history")
 
 
 def test_hypothetical_is_belief():

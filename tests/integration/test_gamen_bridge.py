@@ -96,6 +96,24 @@ def test_consistency_consistent_pair(gamen_available):
     assert result.consistent is True
 
 
+def test_consistency_historical_with_current_negation(gamen_available):
+    """A past finding does not contradict its current absence.
+
+    HISTORICAL used to be B(P(X)); gamen-validate rejects past_diamond in a
+    consistency check (gamen-hs#25). The sortal atom X_history keeps the two
+    formulas apart, so the prover can decide the pair.
+    """
+    from cwyde_haskell_bridge import GamenBridge
+    bridge = GamenBridge()
+    formulas = [
+        category_to_formula(AssertionCategory.HISTORICAL, "hypertension"),
+        category_to_formula(AssertionCategory.DEFINITE_NEGATED_EXISTENCE, "hypertension"),
+    ]
+    result = bridge.check_consistency(formulas)
+    assert result.ok
+    assert result.consistent is True
+
+
 def test_consistency_indication_with_existence(gamen_available):
     """INDICATION is compatible with DEFINITE_EXISTENCE (clinician can discover it's present)."""
     from cwyde_haskell_bridge import GamenBridge
