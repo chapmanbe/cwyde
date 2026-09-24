@@ -14,6 +14,10 @@ class EnglishPlugin:
         from cwyde_knowledge import data_root
         return data_root() / "lang" / "en"
 
+    def section_rule_paths(self) -> list[Path]:
+        p = self._data_root() / "section_rules.yaml"
+        return [p] if p.exists() else []
+
     def lexicon_paths(self) -> list[Path]:
         lex_dir = self._data_root() / "lexicon"
         # general_modifiers.yaml loads last so its entries supersede legacy KB files

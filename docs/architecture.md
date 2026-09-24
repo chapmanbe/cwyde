@@ -54,7 +54,7 @@ Ten categories with doxastic readings (v0.2). Each category encodes the clinicia
 | `PROBABLE_NEGATED_EXISTENCE` | B_clinician(¬X) | existence |
 | `DEFINITE_NEGATED_EXISTENCE` | B_clinician(¬X) | existence |
 | `INDICATION` | ¬K_clinician(X) ∧ ¬K_clinician(¬X) | epistemic |
-| `HISTORICAL` | B_clinician(P(X)) | temporality |
+| `HISTORICAL` | B_clinician(X_history) | temporality |
 | `HYPOTHETICAL` | B_clinician(X) | temporality |
 | `FAMILY` | B_clinician(X_family) | experiencer |
 | `UNRESOLVED` | ⊥ | — |

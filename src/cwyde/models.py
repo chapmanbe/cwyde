@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Literal
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from cwyde.categories import AssertionCategory
 
@@ -166,6 +166,34 @@ class LexiconEntry(_StrictModel):
 class LexiconFile(_StrictModel):
     schema_version: int
     entries: list[LexiconEntry]
+
+    @model_validator(mode="after")
+    def _no_duplicate_lex(self) -> "LexiconFile":
+        seen: dict[str, int] = {}
+        for i, entry in enumerate(self.entries):
+            key = entry.lex.lower()
+            if key in seen:
+                raise ValueError(
+                    f"Duplicate lex {entry.lex!r} at entries[{i}] "
+                    f"(first seen at entries[{seen[key]}])"
+                )
+            seen[key] = i
+        return self
+
+
+# ---------------------------------------------------------------------------
+# section_rules.yaml (lang/*/section_rules.yaml)
+# ---------------------------------------------------------------------------
+
+class SectionRuleEntry(_StrictModel):
+    literal: str
+    category: str
+    override: bool = False
+
+
+class SectionRuleFile(_StrictModel):
+    schema_version: int
+    entries: list[SectionRuleEntry]
 
 
 # ---------------------------------------------------------------------------

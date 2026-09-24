@@ -294,15 +294,18 @@ class TestDocumentGrouping:
 
 
 # ---------------------------------------------------------------------------
-# HISTORICAL semantics (Past wrapping → consistent with current negation)
+# HISTORICAL semantics (sortal atom → consistent with current negation)
 # ---------------------------------------------------------------------------
 
 class TestHistoricalDoesNotContradict:
-    """HISTORICAL(X) wraps the atom in Past, so it should NOT clash with a
-    current DEFINITE_NEGATED_EXISTENCE(X). The component itself doesn't
-    enforce this — gamen-hs does — but we verify the formulas reaching the
-    strategy are structurally different and would be distinguishable by a
-    Past-aware reasoner."""
+    """HISTORICAL(X) is encoded with the sortal atom X_history, so it should
+    NOT clash with a current DEFINITE_NEGATED_EXISTENCE(X).
+
+    This used to rely on B(P(X)) and a "Past-aware reasoner" in gamen-hs.
+    No such reasoner existed: gamen-hs never decomposed P, so the joint check
+    passed without reasoning about the past, and gamen-hs now rejects past
+    operators outright (gamen-hs#25). With distinct atoms, the two formulas
+    are consistent for a propositional reason any prover can check."""
 
     def test_historical_and_current_negation_use_distinct_inner_formulas(self):
         from cwyde.formal.translator import category_to_formula
@@ -310,13 +313,13 @@ class TestHistoricalDoesNotContradict:
         historical = category_to_formula(AssertionCategory.HISTORICAL, "hypertension")
         negated = category_to_formula(AssertionCategory.DEFINITE_NEGATED_EXISTENCE, "hypertension")
 
-        # The atom is the same ('hypertension'), but the historical formula
-        # wraps it in Past, so the joint conjunction is structurally
-        # B(P(hypertension)) ∧ RankedBelief(-2, hypertension) — not a syntactic
-        # contradiction. Verifying this here protects against a translator
-        # regression that would silently make the joint check over-report.
-        from cwyde.formal.modal import Past, Belief, RankedBelief
+        # The historical formula uses its own atom, so the joint conjunction
+        # is B(hypertension_history) ∧ RankedBelief(-2, hypertension) — no
+        # shared atom, no contradiction. Verifying this here protects against
+        # a translator regression that would silently make the joint check
+        # over-report.
+        from cwyde.formal.modal import Atom, Belief, RankedBelief
         assert isinstance(historical, Belief)
-        assert isinstance(historical.operand, Past)
+        assert historical.operand == Atom("hypertension_history")
         assert isinstance(negated, RankedBelief)
         assert negated.rank == -2

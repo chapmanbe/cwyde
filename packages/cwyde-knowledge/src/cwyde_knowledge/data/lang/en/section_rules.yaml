@@ -1,0 +1,50 @@
+schema_version: 1
+
+# Radiology-specific section header rules for medspaCy's sectionizer.
+#
+# These override medspaCy defaults that mis-categorise common radiology headers:
+#   FINDINGS:   → labs_and_studies  (wrong; should be findings)
+#   Findings:   → labs_and_studies  (wrong; should be findings)
+#   IMPRESSION: → observation_and_plan (wrong; should be impression)
+#
+# Entries marked override: true are removed from the sectionizer's existing
+# rule set before adding the corrected version, preventing duplicate matches.
+
+entries:
+  # --- impression: radiologist's final interpretation ---
+  - literal: 'IMPRESSION:'
+    category: impression
+    override: true
+  - literal: 'Impression:'
+    category: impression
+    override: true
+  - literal: 'INTERPRETATION:'
+    category: impression
+  - literal: 'Interpretation:'
+    category: impression
+  - literal: 'CONCLUSION:'
+    category: impression
+  - literal: 'Conclusion:'
+    category: impression
+  - literal: 'CONCLUSIONS:'
+    category: impression
+  - literal: 'Conclusions:'
+    category: impression
+
+  # --- findings: imaging findings body ---
+  - literal: 'FINDINGS:'
+    category: findings
+    override: true
+  - literal: 'Findings:'
+    category: findings
+    override: true
+  - literal: 'FINDING:'
+    category: findings
+  - literal: 'CT FINDINGS:'
+    category: findings
+  - literal: 'CTA FINDINGS:'
+    category: findings
+  - literal: 'MRI FINDINGS:'
+    category: findings
+  - literal: 'RADIOGRAPHIC FINDINGS:'
+    category: findings

@@ -38,6 +38,8 @@ def add_to(nlp, *, lang: str = "en", skip_consistency: bool = False) -> None:
 
     # Seed medspaCy's ConText with cwyde-knowledge lexicons for this language
     _load_lexicons_into_context(nlp, lang)
+    # Override/extend medspaCy's sectionizer with radiology section rules
+    _load_sections_into_sectionizer(nlp, lang)
 
     _add_if_missing(nlp, "cwyde_category_mapper", config={})
     _add_if_missing(nlp, "cwyde_indication_detector", config={"lang": lang})
@@ -137,6 +139,78 @@ def _remove_conflicting_defaults(context_pipe, cwyde_literals: set[str]) -> None
             )
     except AttributeError as exc:
         logger.debug("Could not remove conflicting defaults (medspaCy internals changed?): %s", exc)
+
+
+def _load_sections_into_sectionizer(nlp, lang: str) -> None:
+    """Override/extend medspaCy's sectionizer with cwyde radiology section rules.
+
+    Entries with override: true are removed from the sectionizer's existing rule
+    set (by literal) before the corrected rule is added, preventing duplicate matches
+    where medspaCy's default category would otherwise shadow the cwyde category.
+    """
+    sectionizer = None
+    for name in ("medspacy_sectionizer", "sectionizer"):
+        if name in nlp.pipe_names:
+            sectionizer = nlp.get_pipe(name)
+            break
+    if sectionizer is None:
+        return
+
+    try:
+        from medspacy.section_detection import SectionRule
+        from cwyde.lang.registry import get_plugin
+        from cwyde.kb import load_section_rules
+
+        plugin = get_plugin(lang)
+        all_entries = []
+        for path in plugin.section_rule_paths():
+            try:
+                sf = load_section_rules(path)
+                all_entries.extend(sf.entries)
+            except Exception as exc:
+                logger.warning("Failed to load section rules %s: %s", path, exc)
+
+        if not all_entries:
+            return
+
+        override_literals = {e.literal.lower() for e in all_entries if e.override}
+        if override_literals:
+            _remove_conflicting_section_defaults(sectionizer, override_literals)
+
+        rules = [SectionRule(literal=e.literal, category=e.category) for e in all_entries]
+        sectionizer.add(rules)
+        logger.debug("Loaded %d sectionizer rules from cwyde-knowledge (%s)", len(rules), lang)
+    except Exception as exc:
+        logger.warning("Could not load cwyde section rules into sectionizer: %s", exc)
+
+
+def _remove_conflicting_section_defaults(sectionizer, override_literals: set[str]) -> None:
+    """Remove sectionizer rules whose literal (lowercased) is in override_literals."""
+    try:
+        internal_matcher = sectionizer._Sectionizer__matcher
+        phrase_matcher = internal_matcher._MedspacyMatcher__phrase_matcher
+        token_matcher = internal_matcher._MedspacyMatcher__matcher
+        rule_map = internal_matcher._rule_map
+
+        to_remove = [
+            rule_id
+            for rule_id, rule in list(rule_map.items())
+            if rule.literal.lower() in override_literals
+        ]
+        for rule_id in to_remove:
+            for matcher in (phrase_matcher, token_matcher):
+                try:
+                    matcher.remove(rule_id)
+                except (KeyError, ValueError):
+                    pass
+            rule_map.pop(rule_id, None)
+        if to_remove:
+            logger.debug(
+                "Removed %d medspaCy default sectionizer rules superseded by cwyde rules",
+                len(to_remove),
+            )
+    except AttributeError as exc:
+        logger.debug("Could not remove conflicting sectionizer defaults (medspaCy internals changed?): %s", exc)
 
 
 def _add_if_missing(nlp, name: str, config: dict) -> None:

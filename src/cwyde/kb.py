@@ -23,6 +23,7 @@ from cwyde.models import (
     PatternFile,
     ReproCasesFile,
     SectionAssertionsFile,
+    SectionRuleFile,
 )
 
 
@@ -72,3 +73,7 @@ def load_language_plugin_config(path: Path) -> LanguagePluginConfig:
 
 def load_repro_cases(path: Path) -> ReproCasesFile:
     return _load(path, ReproCasesFile)
+
+
+def load_section_rules(path: Path) -> SectionRuleFile:
+    return _load(path, SectionRuleFile)

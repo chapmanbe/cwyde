@@ -29,20 +29,22 @@ The off-axis categories:
 | Category | Formula | Axis | Reading |
 |---|---|---|---|
 | `INDICATION` | ¬K_clinician(X) ∧ ¬K_clinician(¬X) | epistemic | _Clinician is investigating X; neither asserts nor denies it_ |
-| `HISTORICAL` | B_clinician(P(X)) | temporality | _Clinician believes X was the case at some past time_ |
+| `HISTORICAL` | B_clinician(X_history) | temporality | _Clinician believes X was the case at some past time (sortal restriction)_ |
 | `HYPOTHETICAL` | B_clinician(X) | temporality | _Clinician believes X in a conditional/hypothetical context_ |
 | `FAMILY` | B_clinician(X_family) | experiencer | _Clinician believes X holds of a family member (sortal restriction)_ |
 | `UNRESOLVED` | ⊥ | — | _Conflict not resolvable; explicit non-answer_ |
 
-Off-axis categories use ungraded `Belief` because graded firmness is not the relevant dimension: HISTORICAL has a temporal operator (Past), FAMILY has a sortal restriction, HYPOTHETICAL marks conditional context, and INDICATION is already a distinct epistemic operator. Graded ranking is on the roadmap for HYPOTHETICAL (via accessibility operators) but not yet implemented.
+Off-axis categories use ungraded `Belief` because graded firmness is not the relevant dimension: HISTORICAL and FAMILY have sortal restrictions, HYPOTHETICAL marks conditional context, and INDICATION is already a distinct epistemic operator. Graded ranking is on the roadmap for HYPOTHETICAL (via accessibility operators) but not yet implemented.
 
 ### INDICATION is already correct
 
 `INDICATION` is the one category that v0.1 encoded correctly. The formula ¬K_a(X) ∧ ¬K_a(¬X) — from B&D's epistemic logic — captures the clinician's ignorance of both X and its negation. No change in v0.3.
 
-### HISTORICAL: belief scoped over a past operator
+### HISTORICAL: sortal restriction via atom name
 
-`HISTORICAL` encodes that the clinician believes the finding *was* the case: B_clinician(P(X)). The doxastic wrapper is important: a clinician can be wrong about history.
+`HISTORICAL` encodes that the clinician believes the finding *was* the case: B_clinician(X_history). The doxastic wrapper is important: a clinician can be wrong about history. Like `FAMILY`, it uses a sortal atom, so a past finding (`hypertension_history`) and a current negation (`hypertension`) do not clash in a joint consistency check.
+
+Earlier versions encoded HISTORICAL as B_clinician(P(X)), with P the past-diamond operator. That encoding never reasoned about the past: gamen-hs had no tableau rules for P, so it left P(X) undecomposed and the joint check passed by default. gamen-hs now quarantines all temporal tableau operators and rejects `past_diamond` in a consistency check (gamen-hs#25). The sortal atom gives the same separation without temporal reasoning. The `Past` formula type remains in `cwyde.formal.modal`, but the translator no longer emits it.
 
 ### FAMILY: sortal restriction via atom name
 
@@ -128,9 +130,9 @@ p = category_to_formula(AssertionCategory.PROBABLE_EXISTENCE, "pulmonary_embolis
 a = category_to_formula(AssertionCategory.AMBIVALENT_EXISTENCE, "pulmonary_embolism")
 # RankedBelief("clinician", 0, Atom("pulmonary_embolism"))
 
-# Historical: B_clinician(P(PE)) — still plain Belief with Past
+# Historical: B_clinician(PE_history) — plain Belief over a sortal atom
 h = category_to_formula(AssertionCategory.HISTORICAL, "pulmonary_embolism")
-# Belief("clinician", Past(Atom("pulmonary_embolism")))
+# Belief("clinician", Atom("pulmonary_embolism_history"))
 
 # Custom agent
 r = category_to_formula(AssertionCategory.DEFINITE_EXISTENCE, "pe", agent="radiologist")
