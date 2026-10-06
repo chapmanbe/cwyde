@@ -1,4 +1,5 @@
 __pycache__/
+.ipynb_checkpoints
 *.py[cod]
 *.egg-info/
 .venv/
@@ -6,7 +7,9 @@ dist/
 build/
 .pytest_cache/
 *.so
-
+.DS_Store
+.claude/
+*.swp
 # Evaluation data and local resources (may contain real clinical text)
 resources/
 *.sqlite
