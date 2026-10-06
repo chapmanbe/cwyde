@@ -96,34 +96,26 @@ are fully functional at this point.
 ### Optional: gamen-validate (formal consistency checking)
 
 Notebook 05 and the `cwyde_consistency_checker` pipeline component require
-the `gamen-validate` binary from [gamen-hs](https://github.com/chapmanbe/gamen-hs).
-This is a **Haskell** binary — Python-only environments work fine without it
-(the pipeline falls back to the YAML precedence table).
+the `gamen-validate` binary from [gamen-lean](https://github.com/chapmanbe/gamen-lean)
+(the Lean 4 implementation of the Gamen logics; it succeeded gamen-hs in
+2026-09 and answers the same JSON Lines protocol). Python-only environments
+work fine without it (the pipeline falls back to the YAML precedence table).
 
-**Requires** GHC ≥ 9.6, installed via [ghcup](https://www.haskell.org/ghcup/).
-
-ghcup installs `cabal` and `ghc` into `~/.ghcup/bin`, which is not always
-on `PATH` by default. Add it explicitly:
-
-```bash
-export PATH="$HOME/.ghcup/bin:$PATH"   # one-off
-# or to make it permanent:
-echo 'export PATH="$HOME/.ghcup/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
-which cabal   # should resolve
-```
+**Requires** [elan](https://github.com/leanprover/elan), which installs the
+Lean toolchain that gamen-lean pins.
 
 ```bash
-# Clone and build — all cabal commands must run from the gamen-hs directory
-git clone https://github.com/chapmanbe/gamen-hs.git
-cd gamen-hs
-cabal build gamen-validate
+git clone https://github.com/chapmanbe/gamen-lean.git
+cd gamen-lean
+tools/install.sh          # builds, checks, and copies gamen-validate; does not touch PATH
 
-# Capture the binary path (still inside gamen-hs/)
-export CWYDE_GAMEN_BIN=$(cabal list-bin gamen-validate)
+# install.sh prints the value to export:
+export CWYDE_GAMEN_BIN="$HOME/.local/share/gamen-lean/gamen-validate"
 ```
 
-`find_gamen_validate()` also checks `GAMEN_VALIDATE_BIN` (compatibility with
-`guideline-validation`) and common build output paths before giving up.
+`find_gamen_validate()` checks `CWYDE_GAMEN_BIN`, then `GAMEN_VALIDATE_BIN`
+(compatibility with `guideline-validation`), then `PATH`. It no longer looks for
+a gamen-hs cabal build.
 
 ### PyPI install (library use, no notebooks)
 

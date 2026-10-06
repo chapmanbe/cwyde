@@ -4,7 +4,8 @@ Modal formula dataclass tree mirroring gamen-hs's 26-constructor JSON format.
 Implements the constructors needed for clinical assertion categories.
 Stubbed constructors raise NotImplementedError to fail loudly rather than silently.
 
-gamen-hs tree format reference: ~/Code/Haskell/gamen-hs/validate/Main.hs
+Tree format reference: gamen-lean's Gamen/Protocol.lean (kept byte-compatible with
+gamen-hs's validate/Main.hs for these request types)
 """
 
 from __future__ import annotations
